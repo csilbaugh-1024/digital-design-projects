@@ -11,6 +11,7 @@ The ALU in this project is designed to receive two four-bit inputs: A and B, and
 
 ### Truth Table
 | s2 | s1 | s0 | Operation | Mux |
+| -- | -- | -- | --------- | --- |
 | 0 | 0 | 0 | A + B | i0 |
 | 0 | 0 | 1 | A - B | i1 |
 | 0 | 1 | 0 | A AND B | i2 |
@@ -60,11 +61,11 @@ Though the ALU design source is finished, I cannot flash it to the FPGA without 
 ## Testing
 Now that the ALU has been successfully flashed to the FPGA, physical testing can begin. First I will start by setting A equal to 2 (0010) and B equal to 1 (0001) and selecting all eight different functions of the ALU. This is done with the array of switches at the bottom of the ALU, and the outputs will appear on the four rightmost LEDs above the switches.
 
-![alt text](ALU_FPGAtest1)
+https://github.com/user-attachments/assets/c0877c69-3886-43a8-aab8-8a00a2a914bf
 
 This was a successful test as all outputs were correct. Next, I will test with A = 1 (0001) and B = 5 (0101).
 
-![alt text](ALU_FPGAtest2)
+https://github.com/user-attachments/assets/855155af-ec99-4dee-a5e4-b7cec4a8eb7d
 
 This was a successful test. Note that the output corresponding to s2s1s0 = 001, which represents A minus B, is 1100 in binary. This is -4 represented in two's complement, which is the correct output. For addition or subtraction in this ALU, the most significant bit in input data and output data represents the sign bit. An MSB of 0 indicates a positive number, while an MSB of 1 indicates a negative number. So, any input value greater than 7 (0111) would be interpreted as negative because of the sign bit.
 
