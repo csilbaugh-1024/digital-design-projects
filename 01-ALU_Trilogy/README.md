@@ -1,0 +1,2 @@
+# Project Goal
+The goal of this project is to gain digital design experience by implementing a simple ALU in three stages based on the standard engineering design loop of simulating, prototyping, and developing a final product. First, the ALU will be simulated with VHDL and an FPGA. Next, it will be prototyped on a breadboard. Finally, the ALU will be implemented in a custom PCB based on the breadboard prototype.

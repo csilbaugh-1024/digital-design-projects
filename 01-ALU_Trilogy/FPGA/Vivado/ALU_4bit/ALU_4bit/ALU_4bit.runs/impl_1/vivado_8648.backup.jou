@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.2 (64-bit)
+# SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+# IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+# SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+# Start of session at: Tue Jun 30 11:38:58 2026
+# Process ID         : 8648
+# Current directory  : C:/Engineering/Digital-Design-Projects/01-ALU_Trilogy/FPGA/Vivado/ALU_4bit/ALU_4bit/ALU_4bit.runs/impl_1
+# Command line       : vivado.exe -log ALU_4bit.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source ALU_4bit.tcl -notrace
+# Log file           : C:/Engineering/Digital-Design-Projects/01-ALU_Trilogy/FPGA/Vivado/ALU_4bit/ALU_4bit/ALU_4bit.runs/impl_1/ALU_4bit.vdi
+# Journal file       : C:/Engineering/Digital-Design-Projects/01-ALU_Trilogy/FPGA/Vivado/ALU_4bit/ALU_4bit/ALU_4bit.runs/impl_1\vivado.jou
+# Running On         : Poopfart69
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26200
+# Processor Detail   : AMD Ryzen 7 8845HS w/ Radeon 780M Graphics     
+# CPU Frequency      : 3793 MHz
+# CPU Physical cores : 8
+# CPU Logical cores  : 16
+# Host memory        : 16435 MB
+# Swap memory        : 12348 MB
+# Total Virtual      : 28783 MB
+# Available Virtual  : 7256 MB
+#-----------------------------------------------------------
+source ALU_4bit.tcl -notrace

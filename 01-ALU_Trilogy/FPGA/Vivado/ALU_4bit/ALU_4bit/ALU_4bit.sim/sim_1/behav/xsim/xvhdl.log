@@ -1,0 +1,4 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Engineering/Digital-Design-Projects/01-ALU_Trilogy/FPGA/Vivado/ALU_4bit/ALU_4bit/ALU_4bit.srcs/sources_1/new/four_bit_8x1_mux.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'four_bit_8x1_mux'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Engineering/Digital-Design-Projects/01-ALU_Trilogy/FPGA/Vivado/ALU_4bit/ALU_4bit/ALU_4bit.srcs/sim_1/new/mux_8x1_4bit_tb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'mux_8x1_4bit_tb'
