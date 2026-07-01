@@ -11,6 +11,7 @@ The ALU in this project is designed to receive two four-bit inputs: A and B, and
 
 ### Truth Table
 | s2 | s1 | s0 | Operation | Mux |
+| -- | -- | -- | --------- | --- |
 | 0 | 0 | 0 | A + B | i0 |
 | 0 | 0 | 1 | A - B | i1 |
 | 0 | 1 | 0 | A AND B | i2 |
