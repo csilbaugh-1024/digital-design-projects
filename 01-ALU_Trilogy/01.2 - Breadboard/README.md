@@ -3,9 +3,7 @@
 ## Part Two Goal
 In part one of the ALU Trilogy, which was focused on design and simulation, I designed the ALU with VHDL and verified its functionality using testbenches in Vivado and my FPGA. Because it demonstrated its intended behavior, testing was successful. Now, the design can advance to the physical world and enter the prototyping stage. This is the goal of part two. In this part, I will create a physical breadboard design for the ALU with discrete logic integrated circuits, and I will verify functionality of the completed prototype. Once a successful prototype is complete, the ALU will be ready to reach the third and final stage: a custom PCB design.
 
-## Components
-
-### Selecting Logic ICs
+## Selecting Logic ICs
 The logic behind this design is driven by logic integrated circuits (ICs) that connect to the breadboard and perform a variety of logic operations such as AND, OR, NOT, or other functions such as adding or subtracting bits or multiplexing them. So, before the design can be physically assembled, the first step is to order the proper logic components. Below is a list of the logic components I ordered:
 
 | Part | Common Name | 
@@ -25,11 +23,17 @@ This table does not align perfectly with the list of components I used to design
 
 This design has the same functionality as the standard 8x1 mux used in this ALU. For example, setting each multiplexer's associated select line high passes its left input, so s2s1s0=111 would pass i7.
 
-### Decoupling Capacitors
+### Decoupling Capacitors and DIP Sockets
 
-### Electrical Considerations
+## Electrical Considerations
+
+### Supply and Input Values
+
+### Fan-Out
 
 ## Circuit Design
+
+## Components Used
 
 ## Assembling the Prototype
 
