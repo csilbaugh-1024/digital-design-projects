@@ -23,13 +23,21 @@ This table does not align perfectly with the list of components I used to design
 
 This design has the same functionality as the standard 8x1 mux used in this ALU. For example, setting each multiplexer's associated select line high passes its left input, so s2s1s0=111 would pass i7.
 
-### Decoupling Capacitors and DIP Sockets
+### Bypass Capacitors
+Integrated circuits like the ones used in this project can switch on and off very quickly, and their switching can quickly draw current. However, because wires have inductance, the power supply may not be able to supply that current quickly enough. The solution to this problem is bypass capacitors, which are meant to supply voltage quickly in switching events like these. Each IC should usually get its own bypass capacitor, and it should be wired in parallel to the IC's VCC and GND pins. However, the capacitor's legs still have inductance like any other wire. So, the bypass capacitor should be placed as close to the IC as physically possible to minimize the distance the current needs to travel and thus minimize the time it takes to be supplied to the switching IC.
 
-## Electrical Considerations
+For this project, I chose to follow the datasheets' instructions and use a 0.1-μF "104" ceramic capacitor for each IC.
 
-### Supply and Input Values
+![alt text](Capacitor104.png)
+
+## Electrical Specifications
+Before assembling circuits of any kind, breadboard or PCB, it is important to consider first the electrical characteristics of the components being used. For this project, the electrical specifications of the logic ICs must be respected to avoid potentially damaging them and the circuit. Though these logic ICs have many different specifications, such as recommended input voltage and supply current, they are all displayed clearly on the components' respective datasheets. Additionally, there are a few other concepts to keep in mind to ensure safe operation of ICs like these.
+
+### Supply and Input Values and Current Draw
 
 ### Fan-Out
+
+### HC and LS Families
 
 ## Circuit Design
 
