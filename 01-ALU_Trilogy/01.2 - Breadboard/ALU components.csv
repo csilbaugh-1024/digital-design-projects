@@ -1,0 +1,9 @@
+﻿Part Name,Common Name,VCC (V),VI (V),ICC,Input Current,Family,Datasheet Link
+SN74HC04N,Inverter,5,5,2-20 μA,±1 μA,HC,https://www.ti.com/lit/ds/symlink/sn74hc04.pdf
+SN74HC00N,NAND,5,5,2-20 μA,±1000 μA,HC,https://www.ti.com/lit/ds/symlink/sn74hc00.pdf
+SN74HC02N,NOR,5,5,2-20 μA,±1000 nA,HC,https://www.ti.com/lit/ds/symlink/sn74hc02.pdf
+SN74HC08N,AND,5,5,2-40 μA,±1 μA,HC,https://www.ti.com/lit/ds/symlink/sn74hc08.pdf
+SN74HC32N,OR,5,5,2-20 μA,±1 μA,HC,https://www.ti.com/lit/ds/symlink/sn54hc32-sp.pdf
+SN74HC86N,XOR,5,5,2-20 μA,±1000 nA,HC,https://www.ti.com/lit/ds/symlink/sn74hc86.pdf
+SN74LS283N,Carry Lookahead Adder,5,5,66-110 mA,1 mA,LS,https://www.ti.com/lit/ds/symlink/sn54ls283.pdf?ts=1783849121736&ref_url=https%253A%252F%252Fwww.google.com%252F
+SN74LS157N,2x1 Mux,5,5,30-48 mA,1 mA,LS,https://www.ti.com/lit/ds/symlink/sn74ls157.pdf
