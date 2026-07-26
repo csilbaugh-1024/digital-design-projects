@@ -24,9 +24,10 @@ This table does not align perfectly with the list of components I used to design
 This design has the same functionality as the standard 8x1 mux used in this ALU. For example, setting each multiplexer's associated select line high passes its left input, so s2s1s0=111 would pass i7.
 
 ### Bypass Capacitors
-Integrated circuits like the ones used in this project can switch on and off very quickly, and their switching can quickly draw current. However, because wires have inductance, the power supply may not be able to supply that current quickly enough. The solution to this problem is bypass capacitors, which are meant to supply voltage quickly in switching events like these. Each IC should usually get its own bypass capacitor, and it should be wired in parallel to the IC's VCC and GND pins. However, the capacitor's legs still have inductance like any other wire. So, the bypass capacitor should be placed as close to the IC as physically possible to minimize the distance the current needs to travel and thus minimize the time it takes to be supplied to the switching IC.
+Integrated circuits like the ones used in this project can switch on and off very quickly, and their switching can quickly draw current. However, because wires have inductance, the power supply may not be able to supply that current quickly enough. The solution to this problem is bypass capacitors, which are meant to supply voltage quickly in switching events like these. Each IC should usually get its own bypass capacitor, and it should be wired in parallel to the IC's VCC and GND pins. However, the capacitor's legs still have inductance like any other wire. So, the bypass capacitor should be placed as close to the IC as physically possible to minimize the distance the current needs to travel and thus minimize the time it takes to be supplied to the switching IC. Additionally, engineers should specifically use ceramic capacitors because they can supply voltage for switching ICs much quicker than other kinds of capacitors like electrolytic capacitors can.
 
-For this project, I chose to follow the datasheets' instructions and use a 0.1-μF "104" ceramic capacitor for each IC.
+For this project, I chose to follow the datasheets' instructions and use a
+0.1-μF "104" ceramic capacitor for each IC.
 
 ![alt text](Capacitor104.png)
 
@@ -53,12 +54,47 @@ This design has the same core functionality of the 4-bit ALU that was designed o
 
 To make this project as accurate to the physical components used as possible, the ALU had to be altered slightly. This is because the SN74LS157N passes input A, or i1, when the select line is low. On the other hand, I prefer to design with multiplexers that pass i1 when the select line is high. So, I flipped the inputs for each 2x1 mux in the 8x1 chain. For example, the mux that has i7 on the left and i3 on the right in the sketched design now has i3 on the left and i7 on the right on the KiCad schematic. The 2x1 mux before the adder had to be flipped, too, but this can be done simply by removing the NOT gate between s0 and the mux select rather than flipping the inputs. This saves on hardware cost and complexity while keeping functionality consistent.
 
+Also, this design uses DIP switches to drive inputs A, B, and the select lines, each with a 10k pull-down resistor, and four red LEDs to indicate outputs, each with a 220Ω resistor.
+
+Unfortunately, there are a few flaws to this design that must be resolved with another, improved schematic.
+
 ## Assembling the Prototype
-Assembling the 
+The process of physically assembling the ALU was relatively straightforward because it was the same conceptually as designing the KiCad schematic, only physical electrical concerns such as bypass capacitors and voltage supply had to be considered. Furthermore, the logic ICs's datasheets clearly indicated the purpose of every single pin, which conceptually made wiring very easy. However, I only had three large breadboards, so I had to adjust the design to fit the limited space. Below are two pictures of the complete breadboard design.
+
+![alt_text](Breadboard_0.jpg)
+
+![alt_text](Breadboard_1.jpg)
+
+As shown in the pictures, the wiring of this ALU is very dire, and it quickly became a challenge to navigate during design. However, the consistent organization of components despite the space constraints helped remedy this issue: the top breadboard only has the 2x1 mux and the adder, the middle breadboard has all logic gate ICs (NOT, NAND, XOR, OR, AND), and the lower breadboard has the 2x1 mux tree that acts as an 8x1 mux implemented horizontally. The first four muxes driven by s2 are on the left, which are followed by the two muxes driven by s1, followed by, on the very right, the final mux driven by s0. The outputs of this mux connect to the LEDs that indicate the ALU's output. Additionally, each IC is given a 0.1-μF bypass capacitor, and the entire ALU is powered with an arduino power supply module set to 5 volts.
 
 ## Components Used
+The components used in this project are:
 
-## Final Product and Testing
+### Logic
++2x SN74HC04N
++1x SN74HC00N
++1x SN74HC02N
++1x SN74HC08N
++1x SN74HC32N
++1x SN74HC86N
++1x SN74LS283N
++8x SN74LS157N
++2x 4-wide DIP switch
++1x 3-wide DIP switch
+
+### Electrical
++11x 10k resistor
++4x 220Ω resistor
++4x red LED
++15x 0.1-μF ceramic capacitor
++Jumper wires
++Breadboards
++Arduino power supply module
++9v battery
+
+## Testing
+
+## Improved Schematic
 
 ## Problems and Headaches
 
