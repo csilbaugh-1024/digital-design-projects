@@ -45,10 +45,18 @@ Inversely, it is completely safe to have a cascade-style reverse-fan-out. While 
 Logic ICs are grouped into different families based on certain characteristics. In this project, the 4-bit carry-cookahead adder IC (SN74LS283N) and the 2x1 mux (SN74LS157N) are part of the LS family, while all of the other ICs are part of the HC family. While both families retain the same general functionality, there is one difference that could have been fatal for this project: the LS mux has a high-level output voltage of 2.4-3.4 volts, and the LS adder's high-level output voltage is 2.4-3.6 volts. However, HC family ICs generally prefer high-level input voltage around 5 volts, which is the voltage chosen for this project. In other words, LS family ICs can not always produce a high-level output voltage that is high enough for HC family ICs to recognize and accept. So, it is not reliable to drive HC ICs with LS ones. Fortunately, this never happens in this project. Instead, this project only has either HC driving LS or LS driving LS. Though, it is still best to complete projects like these using ICs of a single logic family, not multiple. So, I should have ordered either only LS ICs or only HC ICs.
 
 ## Circuit Design
+Below is a screenshot of the initial circuit design in KiCad. The file itself is included, too.
 
-## Components Used
+![alt_text](First_Schematic_Pic.jpg)
+
+This design has the same core functionality of the 4-bit ALU that was designed on paper and VHDL, and it is now in a circuit schematic form to prepare for physical implementation. This time, rather than using block diagrams or code, the circuit is designed for logic ICs. So, gates show up as clusters with voltage and GND connections to represent a logic gate IC, resistors and LEDs are placed when needed, and the physical mux, adder, and switch modules are included. Furthermore, this schematic uses proper component names, such as the SN74LS157N, which appears as "74LS157" on every mux. 
+
+To make this project as accurate to the physical components used as possible, the ALU had to be altered slightly. This is because the SN74LS157N passes input A, or i1, when the select line is low. On the other hand, I prefer to design with multiplexers that pass i1 when the select line is high. So, I flipped the inputs for each 2x1 mux in the 8x1 chain. For example, the mux that has i7 on the left and i3 on the right in the sketched design now has i3 on the left and i7 on the right on the KiCad schematic. The 2x1 mux before the adder had to be flipped, too, but this can be done simply by removing the NOT gate between s0 and the mux select rather than flipping the inputs. This saves on hardware cost and complexity while keeping functionality consistent.
 
 ## Assembling the Prototype
+Assembling the 
+
+## Components Used
 
 ## Final Product and Testing
 
