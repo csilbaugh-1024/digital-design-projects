@@ -71,26 +71,26 @@ As shown in the pictures, the wiring of this ALU is very dire, and it quickly be
 The components used in this project are:
 
 ### Logic
-+2x SN74HC04N
-+1x SN74HC00N
-+1x SN74HC02N
-+1x SN74HC08N
-+1x SN74HC32N
-+1x SN74HC86N
-+1x SN74LS283N
-+8x SN74LS157N
-+2x 4-wide DIP switch
-+1x 3-wide DIP switch
+ + 2x SN74HC04N
+ + 1x SN74HC00N
+ + 1x SN74HC02N
+ + 1x SN74HC08N
+ + 1x SN74HC32N
+ + 1x SN74HC86N
+ + 1x SN74LS283N
+ + 8x SN74LS157N
+ + 2x 4-wide DIP switch
+ + 1x 3-wide DIP switch
 
 ### Electrical
-+11x 10k resistor
-+4x 220Ω resistor
-+4x red LED
-+15x 0.1-μF ceramic capacitor
-+Jumper wires
-+Breadboards
-+Arduino power supply module
-+9v battery
+ + 11x 10k resistor
+ + 4x 220Ω resistor
+ + 4x red LED
+ + 15x 0.1-μF ceramic capacitor
+ + Jumper wires
+ + Breadboards
+ + Arduino power supply module
+ + 9v battery
 
 ## Testing
 
