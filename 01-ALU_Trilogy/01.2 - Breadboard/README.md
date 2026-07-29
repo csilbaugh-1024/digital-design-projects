@@ -93,8 +93,16 @@ The components used in this project are:
  + 9v battery
 
 ## Testing
+Unfortunately, the breadboard design did not function correctly. Rather, the LEDs glowed unpredictably, and flipping the switches did not always result in a predictable outcome. After investigating and researching, I discovered two problems with the design: first, there was a broken wire. Second, I fundamentally misunderstood pull-down resistors, which caused me to implement them incorrectly. Initially, I thought pull-down resistors had to be placed in series between a switch and an input it is connected to. I thought that, that way, stray floating voltage when the switch is open would result in a negligible current because of the immense (10k) resistance due to Ohm's Law, which would cause the IC to detect low (0) voltage exactly as intended. However, that is not correct.
+
+Instead, pull-down resistors should be connected to GND in parallel with the intended IC input. For example, one switch driving one input would be connected to two parallel branches: the first would be the pull-down resistor and GND, and the second would be the IC. This way, when the switch is open, there is a clear low-voltage (0) signal coming from GND, rather than unpredictable stray voltage due to the open switch.
+
+Unfortunately, I discovered these causes only after dissasembling the breadboard design. However, I have created a revised schematic that features the proper revisions.
 
 ## Improved Schematic
+This improved schematic now features better structure and organization, proper placement of pull-down resistors, and bypass capacitors are included.
+
+![alt_text](Revised_Schematic_Pic.jpg)
 
 ## Problems and Headaches
 
