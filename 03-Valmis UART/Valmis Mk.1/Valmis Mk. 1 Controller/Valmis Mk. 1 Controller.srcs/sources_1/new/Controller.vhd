@@ -20,8 +20,8 @@ architecture Behavioral of Controller is
 
     signal current_state    : STD_LOGIC_VECTOR(1 downto 0) := "00";
     signal next_state       : STD_LOGIC_VECTOR(1 downto 0);
-    constant IDLE_ST          : STD_LOGIC_VECTOR(1 downto 0) := "00";
-    constant START_ST         : STD_LOGIC_VECTOR(1 downto 0) := "01";
+    constant IDLE_ST        : STD_LOGIC_VECTOR(1 downto 0) := "00";
+    constant START_ST       : STD_LOGIC_VECTOR(1 downto 0) := "01";
     constant SEND_ST        : STD_LOGIC_VECTOR(1 downto 0) := "10";
     signal edetect          : STD_LOGIC;
 
