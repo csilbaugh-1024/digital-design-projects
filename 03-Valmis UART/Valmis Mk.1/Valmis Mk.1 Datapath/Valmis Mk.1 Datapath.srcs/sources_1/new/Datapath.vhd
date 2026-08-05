@@ -9,7 +9,7 @@ entity Datapath is
         W_ld        : in STD_LOGIC;
         y_sel       : in STD_LOGIC;
         y_ld        : in STD_LOGIC;
-        edetectNOT  : in STD_LOGIC;
+        p1NOT       : in STD_LOGIC;
         W           : in STD_LOGIC_VECTOR(6 downto 0);
         clk         : in STD_LOGIC;
         Igt6        : out STD_LOGIC;
@@ -67,7 +67,7 @@ begin
         
     Mux_y           : entity work.Mux_2x1
         port map(
-            A   => edetectNOT,
+            A   => p1NOT,
             B   => W_reg(0),
             sel => y_sel,
             C   => y_mux

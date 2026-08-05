@@ -15,7 +15,7 @@ architecture Sim of Controller_tb is
     signal t_W_ld         : STD_LOGIC := '0';
     signal t_y_sel        : STD_LOGIC := '0';
     signal t_y_ld         : STD_LOGIC := '1';
-    signal t_edetectNOT   : STD_LOGIC := '1';
+    signal t_p1NOT        : STD_LOGIC := '1';
     
 begin
     clk_process : process
@@ -39,7 +39,7 @@ uut : entity work.Controller
         W_ld        => t_W_ld,
         y_sel       => t_y_sel,
         y_ld        => t_y_ld,
-        edetectNOT  => t_edetectNOT
+        p1NOT       => t_p1NOT
     );
     
     process
@@ -50,9 +50,9 @@ uut : entity work.Controller
         wait until rising_edge(t_clk);
         wait for 1 ns;
     
-        -- edge detector check
-        assert t_edetectNOT = '1'
-           report "FAIL! Incorrect edge detector output in IDLE."
+        --  NOT p1 check
+        assert t_p1NOT = '1'
+           report "FAIL! Incorrect NOT p1 output in IDLE."
            severity error;
     
         -- controller output check
@@ -71,8 +71,8 @@ uut : entity work.Controller
         wait for 1 ns;
     
         -- edge detector check
-        assert t_edetectNOT = '0'
-            report "FAIL! Incorrect edge detector output in START."
+        assert t_p1NOT = '0'
+            report "FAIL! Incorrect NOT p1 output in START."
             severity error;
     
         -- controller output check
@@ -85,13 +85,13 @@ uut : entity work.Controller
             report "FAIL! Incorrect select and load outputs in START."
             severity error;
     
-        -- case in FINISH when Igt6 = 0 and data_in does not change
+        -- case in SEND when Igt6 = 0 and data_in does not change
         wait until rising_edge(t_clk);
         wait for 1 ns;
         
-        -- edge detector check (the output is a don't care in this state because y_sel = 1.)
-        assert t_edetectNOT = '1'
-            report "FAIL! Incorrect edge detector output in FINISH"
+        -- NOT p1 check (the output is a don't care in this state because y_sel = 1.)
+        assert t_p1NOT = '1'
+            report "FAIL! Incorrect NOT p1 output in SEND"
             severity error;
         
         -- controller output check
@@ -101,17 +101,17 @@ uut : entity work.Controller
                 t_W_ld     = '1' and
                 t_y_sel    = '1' and
                 t_y_ld     = '1')
-            report "FAIL! Incorrect select and load outputs in FINISH."
+            report "FAIL! Incorrect select and load outputs in SEND."
             severity error;
         
-        -- verify that FINISH persists while Igt6 = 0
+        -- verify that SEND persists while Igt6 = 0
         t_Igt6 <= '0';
         wait until rising_edge(t_clk);
         wait for 1 ns;
         
-        -- edge detector check (the output is a don't care in this state because y_sel = 1.)
-        assert t_edetectNOT = '1'
-            report "FAIL! Incorrect edge detector output while FINISH persists."
+        -- NOT p1 check (the output is a don't care in this state because y_sel = 1.)
+        assert t_p1NOT = '1'
+            report "FAIL! Incorrect NOT p1 output while SEND persists."
             severity error;
         
         -- controller output check
@@ -121,17 +121,17 @@ uut : entity work.Controller
                 t_W_ld     = '1' and
                 t_y_sel    = '1' and
                 t_y_ld     = '1')
-            report "FAIL! Incorrect select and load outputs while FINISH persists."
+            report "FAIL! Incorrect select and load outputs while SEND persists."
             severity error;
         
-        -- case in FINISH when Igt6 = 1 and data_in does not change
+        -- case in SEND when Igt6 = 1 and data_in does not change
         t_Igt6 <= '1';
         wait until rising_edge(t_clk);
         wait for 1 ns;
         
-        -- edge detector check (the output is a don't care in this state because y_sel = 1.)
-        assert t_edetectNOT = '1'
-            report "FAIL! Incorrect edge detector output in FINISH"
+        -- NOT p1 check (the output is a don't care in this state because y_sel = 1.)
+        assert t_p1NOT = '1'
+            report "FAIL! Incorrect edge detector output in SEND"
             severity error;
     
         -- controller output check
@@ -141,7 +141,7 @@ uut : entity work.Controller
                 t_W_ld     = '0' and
                 t_y_sel    = '0' and
                 t_y_ld     = '1')
-            report "FAIL! Incorrect select and load outputs in FINISH."
+            report "FAIL! Incorrect select and load outputs in SEND."
             severity error;
         
         report "TEST SUCCESS!"

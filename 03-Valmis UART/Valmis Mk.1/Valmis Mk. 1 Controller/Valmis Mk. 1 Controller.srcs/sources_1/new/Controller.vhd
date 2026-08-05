@@ -12,7 +12,7 @@ entity Controller is
         W_ld        : out STD_LOGIC;
         y_sel       : out STD_LOGIC;
         y_ld        : out STD_LOGIC;
-        edetectNOT  : out STD_LOGIC
+        p1NOT       : out STD_LOGIC
     );
 end Controller;
 
@@ -23,7 +23,6 @@ architecture Behavioral of Controller is
     constant IDLE_ST        : STD_LOGIC_VECTOR(1 downto 0) := "00";
     constant START_ST       : STD_LOGIC_VECTOR(1 downto 0) := "01";
     constant SEND_ST        : STD_LOGIC_VECTOR(1 downto 0) := "10";
-    signal edetect          : STD_LOGIC;
 
 begin
 
@@ -91,14 +90,7 @@ begin
                 next_state <= IDLE_ST;
             end case;
         end process;
-        
-Edge_detector0 : entity work.Edge_detector
-    port map(
-        clk     => clk,
-        data_in => data_in,
-        edetect => edetect
-    );
     
-edetectNOT <= not edetect;
+p1NOT <= not current_state(0);
         
 end Behavioral;
