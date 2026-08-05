@@ -37,4 +37,6 @@ Furthermore, UARTs are asynchronous, meaning that they are not synchronized with
 ## Problems and Headaches
 - bit width in testbench (building muxes for different widths) (wip)
 - y is one cycle behind in waveform (not technically a bug) (wip)
+- unneeded edge detector
+
 ## What Did I Learn?
