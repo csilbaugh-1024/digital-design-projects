@@ -24,8 +24,17 @@ Furthermore, UARTs are asynchronous, meaning that they are not synchronized with
 
 ## VHDL Design
 
+### Datapath
+
+### Controller
+
+### Baud Rate Controller
+
+### Full Transmitter Design
+
 ## Testing on FPGA
 
 ## Problems and Headaches
-
+- bit width in testbench (building muxes for different widths) (wip)
+- y is one cycle behind in waveform (not technically a bug) (wip)
 ## What Did I Learn?

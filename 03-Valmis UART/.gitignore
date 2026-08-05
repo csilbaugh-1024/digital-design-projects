@@ -1,0 +1,23 @@
+# Vivado generated directories
+.Xil/
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+
+# Log and Journal files
+*.log
+*.jou
+*.str
+
+# Design Checkpoints
+*.dcp
+
+# Bitstreams and binaries
+*.bit
+*.bin
+
+# OS generated files
+.DS_Store
+Thumbs.db
