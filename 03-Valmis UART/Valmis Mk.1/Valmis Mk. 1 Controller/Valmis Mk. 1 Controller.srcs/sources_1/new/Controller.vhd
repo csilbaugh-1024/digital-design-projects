@@ -25,6 +25,10 @@ architecture Behavioral of Controller is
     constant IDLE_ST        : STD_LOGIC_VECTOR(1 downto 0) := "00";
     constant START_ST       : STD_LOGIC_VECTOR(1 downto 0) := "01";
     constant SEND_ST        : STD_LOGIC_VECTOR(1 downto 0) := "10";
+    
+    -- put an edge detector on data_in going in. This way, flipping data_in HIGH once sends one letter.
+    signal data_in_prev : STD_LOGIC := '0';
+    signal data_in_rise : STD_LOGIC;
 
 begin
 
@@ -34,6 +38,16 @@ begin
             current_state <= next_state;
         end if;
     end process;
+    
+    process(clk)
+    begin
+        if rising_edge(clk) then
+            data_in_prev <= data_in;
+        end if;
+    end process;
+    
+    -- edge detector behavior
+    data_in_rise <= data_in and not data_in_prev;
     
     -- states behavior
     process(all)
@@ -54,7 +68,7 @@ begin
                 W_ld        <= '0';
                 y_sel       <= '0';
                 y_ld        <= '1';
-                if data_in = '0' then
+                if data_in_rise = '0' then
                     next_state <= IDLE_ST;
                 else
                     next_state <= START_ST;
