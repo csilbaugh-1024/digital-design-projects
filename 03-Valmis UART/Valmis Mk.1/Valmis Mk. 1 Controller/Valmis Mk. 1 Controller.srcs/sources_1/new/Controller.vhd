@@ -6,6 +6,8 @@ entity Controller is
         clk         : in STD_LOGIC;
         data_in     : in STD_LOGIC;
         Igt6        : in STD_LOGIC;
+        baud_tick   : in STD_LOGIC;
+        
         I_sel       : out STD_LOGIC;
         W_sel       : out STD_LOGIC;
         I_ld        : out STD_LOGIC;
@@ -42,7 +44,7 @@ begin
         W_sel       <= '0';
         W_ld        <= '0';
         y_sel       <= '0';
-        y_ld        <= '1';
+        y_ld        <= '0';
         
         case current_state is
             when IDLE_ST =>
@@ -59,24 +61,46 @@ begin
                 end if;
                 
             when START_ST =>
-                I_sel       <= '0';
-                I_ld        <= '1';
-                W_sel       <= '0';
-                W_ld        <= '1';
                 y_sel       <= '0';
-                y_ld        <= '1';
-                next_state <= SEND_ST;
+                I_sel       <= '0';
+                W_sel       <= '0';
+                
+
+                
+                if baud_tick = '1' then
+                    y_ld        <= '1';
+                    I_ld        <= '1';
+                    W_ld        <= '1';
+                    next_state <= SEND_ST;
+                else
+                    y_ld        <= '0';
+                    I_ld        <= '0';
+                    W_ld        <= '0';
+                    next_state <= START_ST;
+                end if;
                 
             when SEND_ST =>
                 I_sel       <= '1';
-                I_ld        <= '1';
                 W_sel       <= '1';
-                W_ld        <= '1';
                 y_sel       <= '1';
-                y_ld        <= '1';
-                if Igt6 = '1' then
-                    next_state <= IDLE_ST;
+                
+                if baud_tick = '1' then
+                    I_ld        <= '1';
+                    W_ld        <= '1';
+                    y_ld        <= '1';
+                    
+                    if Igt6 = '1' then
+                        next_state <= IDLE_ST;
+                    else
+                        next_state <= SEND_ST;
+                    end if;
+                    
                 else
+                    -- wait until the next baud
+                    I_ld <= '0';
+                    W_ld <= '0';
+                    y_ld <= '0';
+                    
                     next_state <= SEND_ST;
                 end if;
             
