@@ -53,6 +53,8 @@ The branch for W is larger, and it again begins with a 2x1 mux. However, this mu
 
 ## Tutorial for Use
 
+![alt_text](UART_Transmitter_demo.MOV)
+
 ## Problems and Headaches
 - bit width in testbench (building muxes for different widths) (wip)
 - y is one cycle behind in waveform (not technically a bug) (wip)
