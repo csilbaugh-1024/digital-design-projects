@@ -26,7 +26,7 @@ Up until now, this design has been no different from that of an FSM. But, an FSM
 
 Of course, the natural next question is "How does the controller know to loop at SEND until all seven bits of W have been sent?" Again, the solution lies with I. `I = 0` sends W(0), the first bit of W, `I = 1` sends W(1), the second bit of W, and `I = 6` sends W(6), the seventh and final bit of W. Any I value greater than `I = 6` therefore cannot be used the same way the first seven I values can. So, the controller can know when to stop looping SEND by observing whether I is greater than 6. So, I introduced a new input to the controller called "Igt6". From SEND, the controller will loop back to SEND when Igt6' is inputted, and it will move from SEND to IDLE when Igt6 is inputted. With this, the HLSM is finished. My sketch of the initial HLSM and the FSM are below:
 
-![alt_text](Valmis1_HLSM_FSM.pdf)
+![alt_text](Valmis1_HLSM_FSM.png)
 
 ### Datapath
 After the HLSM is made, the next step is to use it to design a datapath. Similar to how an FSM can be translated into a controller and state register, an HLSM can be translated into a datapath, controller, and state register. The datapath is responsible for the outputs and variables of the HLSM. In this case, it must do two things. First, it must increment the variable I starting from 0 and send a signal "Igt6" when I is greater than six. Second, it must output W in the correct format. These two functions will make up two distinct zones in the datapath, and it is best to start with the I zone because it is easier. 
@@ -49,7 +49,9 @@ The branch for W is larger, and it again begins with a 2x1 mux. However, this mu
 
 ### Full Transmitter Design
 
-## Testing on FPGA and Video
+## Testing on FPGA
+
+## Tutorial for Use
 
 ## Problems and Headaches
 - bit width in testbench (building muxes for different widths) (wip)
