@@ -46,8 +46,49 @@ Included below is my initial sketch of the datapath followed by my final datapat
 ![alt_text](Valmis1.png)
 
 ### FSM
+The next step is to design the FSM, which is very similar to the initial HLSM. It has the same three states: IDLE, START, and SEND, and the conditions to move between the states are conceptually similar. Only, since the FSM is meant to be used to design the controller, it includes as outputs the signals that control the datapath. In my sketch, I still included the values of the variable I and the output y to remind myself of the conceptual significance of the states I designed, but these are not necessary because the controller does not directly drive I or y. Instead, the controller outputs these values:
 
-### Controller
+ + I_sel
+ + I_ld
+ + W_sel
+ + W_ld
+ + y_sel
+ + y_ld
+
+Yes, the controller is primarily responsible for driving the multiplexers and load registers in the datapath. So, I started by designing the initial state, IDLE. At IDLE, the outputs of the controller are:
+
+ + I_sel = x
+ + I_ld = 0
+ + W_sel = x
+ + W_ld = 0
+ + y_sel = 0
+ + y_ld = 1
+
+As shown above, I_sel is a don't care because `I_ld = 0`. In other words, it does not matter what I value is selected in the I mux because no new I value is being loaded in this state. The same applies for W. For y, however, the idle output is 1, so p1' is being passed through the y mux and loaded. Data_in' causes the FSM to loop back to IDLE, and data_in moves to START. At START, the outputs are:
+
+ + I_sel = 0
+ + I_ld = 1
+ + W_sel = 0
+ + W_ld = 1
+ + y_sel = 0
+ + y_ld = 1
+
+From START, the FSM will always move to the next state, SEND. Here, I again included `y = W(I)` to keep the purpose of the state clear to myself, but it is important to keep in mind that this is not a direct output of the controller. Instead, the outputs here are:
+
+ + I_sel = 1
+ + I_ld = 1
+ + W_sel = 1
+ + W_ld = 1
+ + y_sel = 1
+ + y_ld = 1
+
+FSMs cannot store and compare variables the same way an HLSM can. So, to check whether I is greater than 6 at the SEND state, the FSM simply uses the signal Igt6 that comes from the comparator in the datapath. From SEND, the controller will loop to SEND again with input Igt6', and input Igt6 causes the controller to return to IDLE. From here, the next step was to draw a large truth table and make K maps to find the boolean equation for each output and state bit of the FSM. Then, these boolean equations can be used to design the controller circuit, and the controller's outputs can be connected to their proper destinations in the datapath. This is my sketch of the HLSM with the FSM below it:
+
+![alt_text](Valmis1_HLSM_FSM.png)
+
+And, here is my initial sketch of the controller:
+
+![alt_text](Valmis1_Controller.png)
 
 ## VHDL Design
 
