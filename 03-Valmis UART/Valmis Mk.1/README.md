@@ -101,6 +101,7 @@ In this repository, I also included an unused "Edge_detector.vhd" in the datapat
 As for the edge detector, it failed when I began to simulate with testbenches. I included it as part of the controller for more straightforward testing and, because the edge detector is a sequential circuit with its own FSM and controller, testing the edge detector meant that I was testing an FSM inside of another FSM. So, it did not function properly because it was a clock cycle behind. Furthermore, it was unncesessary hardware complexity compared to the very simple and straightforward p1' solution. So, after I discovered this solution, I disconnected the unnecessary edge detector. However, I have kept it here to help fully document my engineering design process, even though it was a mistake.
 
 ### Controller
+- secondary edge detector
 
 ### Baud Rate Controller
 
