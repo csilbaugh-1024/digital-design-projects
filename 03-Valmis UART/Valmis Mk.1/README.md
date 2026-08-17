@@ -101,7 +101,19 @@ In this repository, I also included an unused "Edge_detector.vhd" in the datapat
 As for the edge detector, it failed when I began to simulate with testbenches. I included it as part of the controller for more straightforward testing and, because the edge detector is a sequential circuit with its own FSM and controller, testing the edge detector meant that I was testing an FSM inside of another FSM. So, it did not function properly because it was a clock cycle behind. Furthermore, it was unncesessary hardware complexity compared to the very simple and straightforward p1' solution. So, after I discovered this solution, I disconnected the unnecessary edge detector. However, I have kept it here to help fully document my engineering design process, even though it was a mistake.
 
 ### Controller
-- secondary edge detector
+The next step was to write the controller's VHDL, which was very straightforward because the FSM only has three states. After this, I added an edge detector onto the controller's data_in input to ensure that data is sent exactly once when data_in goes HIGH from LOW. I did this in VHDL using this code:
+
+    process(clk)
+    begin
+        if rising_edge(clk) then
+            data_in_prev <= data_in;
+        end if;
+    end process;
+    
+    -- edge detector behavior
+    data_in_rise <= data_in and not data_in_prev;
+
+This code splits the input data_in into data_in_prev and data_in_rise, which is used to observe whether data_in rises from 0 to 1. Physically, this would mean that flipping the switch to send a 7-bit ASCII word only sends it once. Without an edge detector, flipping the data_in switch HIGH would cause data to send multiple times because the FPGA's clock and the UART's baud rate move so much more quickly than human inputs do. Next, after I designed the baud rate generator, I came back to the controller code and connected it to the baud rate where necessary.
 
 ### Baud Rate Controller
 
