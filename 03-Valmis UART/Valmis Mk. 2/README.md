@@ -10,4 +10,7 @@
 
 ## Problems and Headaches
 
+## Better Design
+- SEND REGISTER is redundant. Only the AND chain is needed for SHOW.
+
 ## What Did I Learn?
