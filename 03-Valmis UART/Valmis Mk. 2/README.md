@@ -10,9 +10,10 @@ Now that the UART transmitter is finished, the natural next step is to begin des
 ## Testing on FPGA and Tutorial
 
 ## Problems and Headaches
+- SEND REGISTER causing timing delay by one baud.
 
 ## Better Design
-- SEND REGISTER is redundant. Only the AND chain is needed for SHOW.
+- SEND REGISTER is redundant. Only the AND chain is needed for SHOW. Also, it caused a timing delay, so it was removed.
 - multiple instances of baud generator. How does this compare to one in the top-level design?
 
 ## What Did I Learn?
