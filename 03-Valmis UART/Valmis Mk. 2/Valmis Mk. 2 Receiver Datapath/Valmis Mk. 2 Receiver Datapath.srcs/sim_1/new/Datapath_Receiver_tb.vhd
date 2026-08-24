@@ -260,8 +260,8 @@ uut : entity work.Datapath_Receiver
             
         -- Move back to RECEIVE state with another y start bit
         t_y     <= '0';
-        t_ld_c  <= '0';  
-        t_N_sel <= '0';
+        t_ld_c  <= '1';  
+        t_N_sel <= '1';
         t_N_ld  <= '1';
         
         t_t_ld  <= '0'; -- t_ld goes back LOW when the controller leaves SHOW state
