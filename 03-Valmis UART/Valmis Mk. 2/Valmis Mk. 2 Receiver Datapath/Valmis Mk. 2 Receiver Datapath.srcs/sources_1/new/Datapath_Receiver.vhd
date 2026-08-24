@@ -29,14 +29,6 @@ architecture Behavioral of Datapath_Receiver is
     signal R1               : STD_LOGIC;
     signal R0               : STD_LOGIC;
     
-    signal S_R6             : STD_LOGIC;
-    signal S_R5             : STD_LOGIC;
-    signal S_R4             : STD_LOGIC;
-    signal S_R3             : STD_LOGIC;
-    signal S_R2             : STD_LOGIC;
-    signal S_R1             : STD_LOGIC;
-    signal S_R0             : STD_LOGIC;
-    
     signal receiver_baud    : STD_LOGIC;
     
 begin
@@ -84,17 +76,6 @@ begin
                     R0 <= R1;
                 end if;
                 
-                -- SEND REGISTER
-                if t_ld = '1' then
-                    S_R6 <= R6;
-                    S_R5 <= R5;
-                    S_R4 <= R4;
-                    S_R3 <= R3;
-                    S_R2 <= R2;
-                    S_R1 <= R1;
-                    S_R0 <= R0;
-                end if;
-                
                 -- N register
                 if N_ld = '1' then
                     N_reg <= N_mux;
@@ -103,12 +84,12 @@ begin
         end if;
     end process;
     
-    D(6) <= S_R6 and t_ld;
-    D(5) <= S_R5 and t_ld;
-    D(4) <= S_R4 and t_ld;
-    D(3) <= S_R3 and t_ld;
-    D(2) <= S_R2 and t_ld;
-    D(1) <= S_R1 and t_ld;
-    D(0) <= S_R0 and t_ld;
+    D(6) <= R6 and t_ld;
+    D(5) <= R5 and t_ld;
+    D(4) <= R4 and t_ld;
+    D(3) <= R3 and t_ld;
+    D(2) <= R2 and t_ld;
+    D(1) <= R1 and t_ld;
+    D(0) <= R0 and t_ld;
 
 end Behavioral;
