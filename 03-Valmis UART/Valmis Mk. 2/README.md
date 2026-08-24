@@ -13,5 +13,6 @@ Now that the UART transmitter is finished, the natural next step is to begin des
 
 ## Better Design
 - SEND REGISTER is redundant. Only the AND chain is needed for SHOW.
+- multiple instances of baud generator. How does this compare to one in the top-level design?
 
 ## What Did I Learn?
