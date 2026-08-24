@@ -21,13 +21,13 @@ architecture Behavioral of Datapath_Receiver is
     signal N_reg            : STD_LOGIC_VECTOR(2 downto 0);
     signal N_inc            : STD_LOGIC_VECTOR(2 downto 0);
     
-    signal R6               : STD_LOGIC;
-    signal R5               : STD_LOGIC;
-    signal R4               : STD_LOGIC;
-    signal R3               : STD_LOGIC;
-    signal R2               : STD_LOGIC;
-    signal R1               : STD_LOGIC;
-    signal R0               : STD_LOGIC;
+    signal R6               : STD_LOGIC := '0';
+    signal R5               : STD_LOGIC := '0';
+    signal R4               : STD_LOGIC := '0';
+    signal R3               : STD_LOGIC := '0';
+    signal R2               : STD_LOGIC := '0';
+    signal R1               : STD_LOGIC := '0';
+    signal R0               : STD_LOGIC := '0';
     
     signal receiver_baud    : STD_LOGIC;
     
