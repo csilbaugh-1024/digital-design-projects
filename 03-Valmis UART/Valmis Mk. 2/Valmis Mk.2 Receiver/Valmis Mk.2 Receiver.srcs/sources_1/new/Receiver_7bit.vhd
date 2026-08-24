@@ -17,7 +17,7 @@ architecture Struct of Receiver_7bit is
     signal t_ld         : STD_LOGIC;
     signal N_sel        : STD_LOGIC;
     signal N_ld         : STD_LOGIC;
-    signal Ngt6         : STD_LOGIC;
+    signal Ngt5         : STD_LOGIC;
 
 begin
 
@@ -29,7 +29,7 @@ begin
             N_ld        => N_ld,
             y           => y,
             clk         => clk,
-            Ngt6        => Ngt6,
+            Ngt5        => Ngt5,
             D           => D
         );
         
@@ -37,7 +37,7 @@ begin
         port map(
             clk         => clk,
             y           => y,
-            Ngt6        => Ngt6,
+            Ngt5        => Ngt5,
             ld_c        => ld_c,
             t_ld        => t_ld,
             N_sel       => N_sel,

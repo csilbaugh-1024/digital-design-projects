@@ -10,7 +10,7 @@ entity Datapath_Receiver is
         y               : in STD_LOGIC;
         clk             : in STD_LOGIC;
         
-        Ngt6            : out STD_LOGIC;
+        Ngt5            : out STD_LOGIC;
         D               : out STD_LOGIC_VECTOR(6 downto 0)
     );
 end Datapath_Receiver;
@@ -50,8 +50,8 @@ begin
     Comparator_N    : entity work.N_comparator
         port map(
             A   => N_reg,
-            B   => "110",
-            Ngt => Ngt6
+            B   => "101",
+            Ngt => Ngt5
         );
         
     Baud_N          : entity work.Baud_Gen

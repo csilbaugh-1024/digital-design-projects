@@ -5,7 +5,7 @@ entity Receiver_Controller is
     port(
         clk                 : in STD_LOGIC;
         y                   : in STD_LOGIC;
-        Ngt6                : in STD_LOGIC;
+        Ngt5                : in STD_LOGIC;
         
         ld_c                : out STD_LOGIC;
         t_ld                : out STD_LOGIC;
@@ -85,7 +85,7 @@ begin
                 N_sel       <= '1';
                 N_ld        <= '1';
                
-                if Ngt6 = '0' then
+                if Ngt5 = '0' then
                     next_state <= RECEIVE_ST;
                 else
                     next_state <= SHOW_ST;
