@@ -10,7 +10,8 @@ Now that the UART transmitter is finished, the natural next step is to begin des
 ## Testing on FPGA and Tutorial
 
 ## Problems and Headaches
-- SEND REGISTER causing timing delay by one baud.
+- SEND REGISTER was not truly the problem.
+- Ngt6 had to be replaced by Ngt5 to fix timing delay.
 
 ## Better Design
 - SEND REGISTER is redundant. Only the AND chain is needed for SHOW. Also, it caused a timing delay, so it was removed.
