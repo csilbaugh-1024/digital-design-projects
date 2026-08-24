@@ -65,7 +65,7 @@ uut : entity work.Datapath_Receiver
             severity error;
             
         -- test case when send start bit. Nothing should change.
-        t_y <= '0';
+        t_y     <= '0';
         t_ld_c  <= '0';  
         t_N_sel <= '0';
         t_N_ld  <= '1';
@@ -110,6 +110,8 @@ uut : entity work.Datapath_Receiver
         for i in 1 to 10417 loop
             wait until rising_edge(t_clk);
         end loop;
+        
+        wait for 1 ns;
             
         assert t_Ngt6 = '0'
             report "FAIL! Comparator fired before N exceeded 6 while receiving bit 1."
@@ -127,6 +129,8 @@ uut : entity work.Datapath_Receiver
         for i in 1 to 10417 loop
             wait until rising_edge(t_clk);
         end loop;
+        
+        wait for 1 ns;
             
         assert t_Ngt6 = '0'
             report "FAIL! Comparator fired before N exceeded 6 while receiving bit 2."
@@ -144,6 +148,8 @@ uut : entity work.Datapath_Receiver
         for i in 1 to 10417 loop
             wait until rising_edge(t_clk);
         end loop;
+        
+        wait for 1 ns;
             
         assert t_Ngt6 = '0'
             report "FAIL! Comparator fired before N exceeded 6 while receiving bit 3."
@@ -161,6 +167,8 @@ uut : entity work.Datapath_Receiver
         for i in 1 to 10417 loop
             wait until rising_edge(t_clk);
         end loop;
+        
+        wait for 1 ns;
             
         assert t_Ngt6 = '0'
             report "FAIL! Comparator fired before N exceeded 6 while receiving bit 4."
@@ -178,6 +186,8 @@ uut : entity work.Datapath_Receiver
         for i in 1 to 10417 loop
             wait until rising_edge(t_clk);
         end loop;
+        
+        wait for 1 ns;
             
         assert t_Ngt6 = '0'
             report "FAIL! Comparator fired before N exceeded 6 while receiving bit 5."
@@ -195,6 +205,8 @@ uut : entity work.Datapath_Receiver
         for i in 1 to 10417 loop
             wait until rising_edge(t_clk);
         end loop;
+        
+        wait for 1 ns;
             
         assert t_Ngt6 = '1'
             report "FAIL! Comparator failed to fire when N exceeded 6"
@@ -214,6 +226,8 @@ uut : entity work.Datapath_Receiver
         for i in 1 to 10417 loop
             wait until rising_edge(t_clk);
         end loop;
+        
+        wait for 1 ns;
             
         assert t_Ngt6 = '0'
             report "FAIL! Increment N loop failed to reset in SHOW state."
@@ -223,23 +237,46 @@ uut : entity work.Datapath_Receiver
             report "FAIL! Incorrect output in SHOW state."
             severity error;
             
-        -- return to IDLE
+        -- remain in SHOW
         t_y     <= '1';
         t_ld_c  <= '0';  
         t_N_sel <= '0';
         t_N_ld  <= '1';
         
-        t_t_ld  <= '0'; -- only in the SHOW state does the terminal load go HIGH
+        t_t_ld  <= '1'; -- t_ld remains HIGH in SHOW
         for i in 1 to 10417 loop
             wait until rising_edge(t_clk);
         end loop;
+        
+        wait for 1 ns;
             
         assert t_Ngt6 = '0'
-            report "FAIL! Increment N loop failed to reset after leaving SHOW state."
+            report "FAIL! Increment N loop failed to stay LOW in SHOW after resetting."
+            severity error;
+            
+        assert t_D = "0111011"
+            report "FAIL! Incorrect D while remaining in SHOW."
+            severity error;
+            
+        -- Move back to RECEIVE state with another y start bit
+        t_y     <= '0';
+        t_ld_c  <= '0';  
+        t_N_sel <= '0';
+        t_N_ld  <= '1';
+        
+        t_t_ld  <= '0'; -- t_ld goes back LOW when the controller leaves SHOW state
+        for i in 1 to 10417 loop
+            wait until rising_edge(t_clk);
+        end loop;
+        
+        wait for 1 ns;
+            
+        assert t_Ngt6 = '0'
+            report "FAIL! Comparator fired erroneously after returning to RECEIVE from SHOW."
             severity error;
             
         assert t_D = "0000000"
-            report "FAIL! D failed to return to 000 0000 after returning to IDLE from SHOW."
+            report "FAIL! D failed to reset to 000 0000 after returning to RECEIVE from SHOW."
             severity error;
             
          
