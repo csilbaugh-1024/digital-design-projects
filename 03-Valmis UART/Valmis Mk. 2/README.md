@@ -8,6 +8,9 @@ Now that the UART transmitter is finished, the natural next step is to begin des
 ## VHDL Design
 
 ## Testing on FPGA and Tutorial
+Testing on the FPGA was successful. I programmed my FPGA with the receiver design, connected it to my computer, and opened a PuTTY terminal at 9600 baud with 7 bits. Then, I typed different letters on my keyboard with the PuTTY terminal open and verified that the appropriate LEDs on the FPGA illuminate according to each sent letter's corresponding ASCII value. Below, I have included a link to a YouTube video where I demonstrate how to use this UART receiver.
+
+https://youtube.com/shorts/Cp6Fhl6WPGQ?feature=share
 
 ## Problems and Headaches
 - SEND REGISTER was not truly the problem.
