@@ -13,7 +13,7 @@ I included four states: INIT, WAIT, RECEIVE, and SHOW. INIT, short for "initiali
 
 From WAIT, `y = 1` causes the HLSM to loop back to WAIT, while `y = 0`, the start bit, will cause the HLSM to move to the RECEIVE state, state 10. Here, it will begin to store the y values that come from a transmitter. At RECEIVE, there is only one function, `N = N + 1`. So, N will increment while data is being received. The HLSM will loop back to RECEIVE if N is less than or equal to 6, and it will move to the next state, SHOW (state 11), if N is greater than 6. At SHOW, `S = 1` and N returns to 0. At this state, the output D will change from `D = 000 0000` to the ASCII value the receiver stored. From SHOW, the HLSM will only move back to RECEIVE if it detects another start bit, `y = 0`. Otherwise, it will loop back to itself if `y = 1`.
 
- - Include picture
+![alt_text](Receiver_HLSM_FSM.png)
 
 ### Datapath
 Next is the datapath, and the most significant hurdle that I faced while designing this UART receiver's datapath was figuring out how to convert a series of seven 1-bit inputs into one parallel 7-bit word. After some deliberation and planning, I decided to try what I call a "trickle-down" design that uses a cascade of seven registers. At the very top of the cascade, there is register 6, which I labeled "R6". R6 connects to R5, which connects to R4, and this pattern continues until it reaches R0. Additionally, all 7 registers share the same baud rate and load signal. I initially included a separate load signal for each register in the cascade, but I later changed this to the signal ld_c, which all of these registers share.
@@ -24,22 +24,23 @@ This same process takes place in my 7-bit receiver, only with 7 registers instea
 
 Also, I decided to implement a safeguard in this datapath that ensures D is always equal to `000 0000` unless the receiver enters the SHOW state. I did this by adding a chain of 7 AND gates at the end of the receiver, one for each output of the SEND register. Each AND gate connects to its corresponding SEND register output and S, which is an output of the controller that goes HIGH in the SHOW state. The output of these 7 AND gates combined is D. So, when the receiver is not in SHOW state, every AND gate outputs a 0. So, `D = 000 0000`. In the SHOW state, all bit positions of the received ASCII word that are meant to be 0 remain 0, while those that are meant to be 1 become 1. This ensures that the received ASCII value is only displayed in the SHOW state, nowhere else. Further into designing this project, I discovered that S can be replaced with t_ld, saving on design complexity, wires, and gates.
 
-- Include pic
+![alt_text](Receiver_Datapath_Draft.png)
 
 The loop for incrementing N shares the exact same structure that is used for I in the transmitter. It starts with a 2x1 mux for N driven by N_sel, which comes from the controller. When N_sel is LOW, the mux passes i0, which is 000. When N_sel is HIGH, the mux passes i1, which is N + 1. The output of the mux feeds into the N register, which is loaded by N_ld, which again comes from the controller. Additionally, the N register is connected to the same baud rate as the register cascade. The output of the N register arrives at two separate destinations: a comparator and an incrementer. The comparator's output, Ngt6, is only HIGH when N is greater than 6. Ngt6 is an input to the controller. On the other hand, the output of the N register feeds into an incrementer whose output subsequently feeds back into i0 of the N mux.
 
 ### FSM and Controller
 After the datapath, I designed the FSM. Just like the HLSM, I included four states: INIT (00), WAIT (01), RECEIVE (10), and SHOW (11). Starting at INIT, `y = 0` loops back to INIT, and `y = 1` goes on to the next state. Regarding the outputs at INIT, all of the load signals for the tricke-down registers are LOW, t_ld is LOW, S is LOW, N_ld is LOW. Additionally, N_sel is a don't care because nothing is being loaded. Because INIT exists purely for initialization, it makes sense that all of the outputs of the controller here are LOW. Next comes WAIT. This state has all of the same outputs that INIT has, except for N_ld, which is 1, and N_sel, which is 0. These outputs change going from INIT to WAIT because the datapath must begin passing `N = 0` so that it can begin to increment N at the next state after a start bit arrives. So, the FSM only moves on to the next state if a `y = 0` start bit arrives, and it loops back to itself if a `y = 1` idle bit arrives. The next state is RECEIVE. Here, the load signals for all of the trickle-down registers go HIGH, N_sel and N_ld go HIGH, while t_ld and S remain LOW. Because N_ld and N_sel are HIGH, the datapath is now selecting N + 1. From RECEIVE, the receiver input y no longer controls which state comes next. Instead, it is Ngt6. Ngt6' causes the FSM to loop back to RECEIVE, while Ngt6 causes it to move to the final state, SHOW. At SHOW, All of the load signals for the cascade registers return to LOW because new inputs to the receiver are no longer being saved. N_sel also goes LOW, and N_ld is HIGH. t_ld and S both go HIGH to display the received ASCII value. From here, another start bit, `y = 0`, returns the FSM to RECEIVE, while an idle bit, `y = 1`, keeps the FSM at SHOW. This way, the received ASCII value is constantly being displayed until it comes time to receive a new one.
 
-- include pic
+![alt_text](Receiver_HLSM_FSM.png)
 
 Next, I used truth tables and K-maps to design the controller.
 
-- include pic
+![alt_text](Receiver_Controller_Draft.png)
 
 ## VHDL Design
 
 ### Datapath
+After completing the sketch design, I coded the datapath. Because it is mostly registers, this datapath did not require very much VHDL. In fact, I only instantiated four components: the mux for N, the comparator for N, the incrementer for N, and the baud rate generator. The rest of the datapath involved writing the trickle-down register cascade behavior and the AND gate chain at the end of the design. Though I initially included the SHOW register, I removed it after discovering it caused problematic timing delays in showing D. Furthermore, I changed Ngt6 to Ngt5 after discovering that this also caused a timing delay of one baud cycle.
 
 ### Controller
 
@@ -63,8 +64,6 @@ However, this raises the question, "Why did Ngt6 not work for the receiver even 
 
 So, the transmitter uses Igt6 because it increments I up to 6 from 0 after sending all 7 bits of W, and then it increments I from 6 to 7 after sending the idle `y = 1`. At this point, Igt6 fires because I is greater than 6, and the transmitter either continues sending idle 1s, or it sends a 0 start bit. The receiver, on the other hand, stores 7 bits while actively receiving. By incrementing N the same way the transmitter increments I, N becomes 6 once all 7 bits of the incoming ASCII value are stored. So, the controller should move states when `N = 6`. However, `Ngt6 = 0` when `N = 6`, so the receiver does not move states until one more bit is erroneously stored, after which Ngt6 fires because N is 7. So, modifying the receier to use Ngt5 rather than Ngt6 ensures it changes states at the correct time, as soon as all 7 bits of the incoming ASCII value are stored.
 
-## Better Design
-- SEND REGISTER is redundant. Only the AND chain is needed for SHOW. Also, it caused a timing delay, so it was removed.
-- multiple instances of baud generator. How does this compare to one in the top-level design?
+Additionally, I implemented the same baud rate generator differently in the transmitter and receiver. For the transmitter, I implemented it as a top-level component on the same level as the controller and the datapath. This is a quite straightforward implementation, but, since I made the baud rate generator last, it meant that I had to go back and reconfigure the rest of my VHDL so that the controller and datapath were synchronized with the baud rate. Now that the receiver and transmitter are finished, I understand that it would have been wiser to design the baud rate generator first. For the receiver, I instantiated the baud rate generator as a component of both the controller and the datapath as I designed them. However, this is not very efficient coding because it caused the receiver to include two instances of the same baud rate generator. Instead, the best approach would be to design all relevant components synchronized to the baud rate generator as an external input and then instantiate it at the top level alongside the datapath and controller.
 
 ## What Did I Learn?
