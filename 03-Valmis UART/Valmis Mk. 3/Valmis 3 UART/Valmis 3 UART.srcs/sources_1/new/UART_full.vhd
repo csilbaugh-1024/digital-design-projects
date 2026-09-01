@@ -4,7 +4,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity UART_full is
     port(
         W       : in STD_LOGIC_VECTOR(6 downto 0); -- Transmitter switches for ASCII letter
-        send    : in STD_LOGIC; -- Transmitter send switch
+        data_in : in STD_LOGIC; -- Transmitter send switch
         R       : in STD_LOGIC; -- Receiver input
         
         D       : out STD_LOGIC_VECTOR(6 downto 0); -- Receiver display
