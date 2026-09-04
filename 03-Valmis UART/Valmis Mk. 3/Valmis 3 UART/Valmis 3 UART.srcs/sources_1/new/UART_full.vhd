@@ -5,10 +5,10 @@ entity UART_full is
     port(
         W       : in STD_LOGIC_VECTOR(6 downto 0); -- Transmitter switches for ASCII letter
         data_in : in STD_LOGIC; -- Transmitter send switch
-        R       : in STD_LOGIC; -- Receiver input
+        RX      : in STD_LOGIC; -- Receiver input
         
         D       : out STD_LOGIC_VECTOR(6 downto 0); -- Receiver display
-        C       : out STD_LOGIC; -- Transmitter output
+        TX      : out STD_LOGIC; -- Transmitter output
         
         clk     : in STD_LOGIC
     );
@@ -20,15 +20,15 @@ begin
     Transmitter0    : entity work.Transmitter_7bit
         port map(
             W       => W,
-            data_in => send,
+            data_in => data_in,
             clk     => clk,
-            y       => C
+            y       => TX
         );
         
     Receiver0       : entity work.Receiver_7bit
         port map(
             clk     => clk,
-            y       => R,
+            y       => RX,
             D       => D
         );
             
