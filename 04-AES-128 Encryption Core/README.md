@@ -15,7 +15,9 @@ Additionally, AES uses another operation called KeyExpansion, which is done by s
 ### KeyExpansion
 AES uses KeyExpansion to expand the starting key into 10, 12, or 14 additional keys depending on the starting key's length. Since this project uses a 128-bit key consistent with AES-128, I will design KeyExpansion to expand the starting key into 10 more round keys. Before expanding, AES operations are usually described with bytes. So, it is better to visualize the 128-bit key as a 16-byte key, instead. This way, the key can be represented as:
 
-`K = K0 K1 K2 K3 K4 K5 K6 K7 K8 K9 KA KB KC KD KE KF`
+$$
+K = K_0\ K_1\ K_2\ K_3\ K_4\ K_5\ K_6\ K_7\ K_8\ K_9\ K_A\ K_B\ K_C\ K_D\ K_E\ K_F
+$$
 
 Next, linear algebra is essential to AES encyrption. So, KeyExpansion and other AES operations are explained using matrices, vectors, and other important elements of linear algebra. Consequently, engineers visualize the key as a matrix whose elements correspond to its 16 bytes. This matrix is called the "key matrix", and it is essential for engineers to use to effectively understand and design KeyExpansion.
 
@@ -31,7 +33,9 @@ $$
 
 After the key matrix is built, the first step of KeyExpansion is to fuse each column of the key matrix into a single word. So, KeyExpansion rephrases the 128-bit key into four 32-bit words. Now, the key is:
 
-`K = W0 W1 W2 W3`
+$$
+K = W_0\ W_1\ W_2\ W_3
+$$
 
 ### AddRoundKey
 
