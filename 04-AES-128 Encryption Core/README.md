@@ -14,7 +14,7 @@ Additionally, AES uses another operation called KeyExpansion, which is done by s
 AES uses KeyExpansion to expand the starting key into 11, 13, or 15 total round keys depending on the starting key's length. These round keys are used by the AddRoundKey function. Since this project uses a 128-bit key consistent with AES-128, I will design KeyExpansion to expand the starting key into 10 more round keys. Before expanding, AES operations are usually described with bytes. So, it is better to visualize the 128-bit key as a 16-byte key, instead. This way, the key can be represented as:
 
 $$
-K = K_0\ K_1\ K_2\ K_3\ K_4\ K_5\ K_6\ K_7\ K_8\ K_9\ K_A\ K_B\ K_C\ K_D\ K_E\ K_F
+K = K_0\ K_1\ K_2\ K_3\ K_4\ K_5\ K_6\ K_7\ K_8\ K_9\ K_10\ K_11\ K_12\ K_13\ K_14\ K_15
 $$
 
 Next, linear algebra is essential to AES encyrption. So, KeyExpansion and other AES operations are explained using matrices, vectors, and other important elements of linear algebra. Consequently, engineers visualize the key as a matrix whose elements correspond to its 16 bytes. This matrix is called the "key array", and it is essential for engineers to use to effectively understand and design KeyExpansion.
@@ -22,14 +22,33 @@ Next, linear algebra is essential to AES encyrption. So, KeyExpansion and other 
 $$
 K =
 \begin{bmatrix}
-K_0 & K_4 & K_8 & K_C \\
-K_1 & K_5 & K_9 & K_D \\
-K_2 & K_6 & K_A & K_E \\
-K_3 & K_7 & K_B & K_F \\
+K_0 & K_4 & K_8 & K_12 \\
+K_1 & K_5 & K_9 & K_13 \\
+K_2 & K_6 & K_10 & K_14 \\
+K_3 & K_7 & K_11 & K_15 \\
 \end{bmatrix}
 $$
 
-After the initial key matrix is built, KeyExpansion expands this matrix into a larger one called the "expanded key array", which has four rows and $N_b(N_r + 1)$ columns, where $N_b$ represents the number of bits in the plaintext divided by 32, and $N_r$ represents the number of rounds. Since this project uses AES-128, $N_b$ is equal to 128 divided by 32, which is 4, and there are 10 rounds. So, $N_b(N_r + 1)$ is equal to 4 times 11, which is 44. So, the expanded key array is a matrix that has four rows and 44 columns. This configuration can alternatively be viewed as 11 separate key arrays whose columns are attached to each other, one array per instance of AddRoundKey. The first array is to be used for the first instance of AddRoundKey, the second for the second instance of AddRoundKey, and so on.
+After the initial key matrix is built, KeyExpansion expands this matrix into a larger one called the "expanded key array", which has four rows and $N_b(N_r + 1)$ columns, where $N_b$ represents the number of bits in the plaintext divided by 32, and $N_r$ represents the number of rounds. Since this project uses AES-128, $N_b$ is equal to 128 divided by 32, which is 4, and there are 10 rounds. So, $N_b(N_r + 1)$ is equal to 4 times 11, which is 44. So, the expanded key array is a matrix that has four rows and 44 columns, resulting in a total 176 entries. This configuration can alternatively be viewed as 11 separate key arrays whose columns are attached to each other, one array per instance of AddRoundKey. The first array is to be used for the first instance of AddRoundKey, the second for the second instance of AddRoundKey, and so on. 
+
+$$
+K =
+\begin{bmatrix}
+K_0 & K_4 & K_8 & K_12 & K_16 & ... & K_173 \\
+K_1 & K_5 & K_9 & K_13 & K_17 & ... & K_174 \\
+K_2 & K_6 & K_10 & K_14 & K_18 & ... & K_175 \\
+K_3 & K_7 & K_11 & K_15 & K_19 & ... & K_176 \\
+\end{bmatrix}
+$$
+
+Alternatively, the expanded key matrix could simply be visualized as an 11-column matrix whose nth column contains the round key corresponding to the nth instance of AddRoundKey (the nth round key):
+
+$$
+K =
+\begin{bmatrix}
+K_0 & K_1 & K_2 & K_3 & ... & K_10 \\
+\end{bmatrix}
+$$
 
 ### AddRoundKey
 
