@@ -34,10 +34,10 @@ After the initial key matrix is built, KeyExpansion expands this matrix into a l
 $$
 K =
 \begin{bmatrix}
-K_0 & K_4 & K_8 & K_{12} & K_{16} & ... & K_{173} \\
-K_1 & K_5 & K_9 & K_{13} & K_{17} & ... & K_{174} \\
-K_2 & K_6 & K_{10} & K_{14} & K_{18} & ... & K_{175} \\
-K_3 & K_7 & K_{11} & K_{15} & K_{19} & ... & K_{176} \\
+K_0 & K_4 & K_8 & K_{12} & K_{16} & ... & K_{172} \\
+K_1 & K_5 & K_9 & K_{13} & K_{17} & ... & K_{173} \\
+K_2 & K_6 & K_{10} & K_{14} & K_{18} & ... & K_{174} \\
+K_3 & K_7 & K_{11} & K_{15} & K_{19} & ... & K_{175} \\
 \end{bmatrix}
 $$
 
