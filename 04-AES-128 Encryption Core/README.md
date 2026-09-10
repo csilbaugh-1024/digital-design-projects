@@ -14,7 +14,7 @@ Additionally, AES uses another operation called KeyExpansion, which is done by s
 AES uses KeyExpansion to expand the starting key into 11, 13, or 15 total round keys depending on the starting key's length. These round keys are used by the AddRoundKey function. Since this project uses a 128-bit key consistent with AES-128, I will design KeyExpansion to expand the starting key into 10 more round keys. Before expanding, AES operations are usually described with bytes. So, it is better to visualize the 128-bit key as a 16-byte key, instead. This way, the key can be represented as:
 
 $$
-K = K_0\ K_1\ K_2\ K_3\ K_4\ K_5\ K_6\ K_7\ K_8\ K_9\ K_10\ K_11\ K_12\ K_13\ K_14\ K_15
+K = K_0\ K_1\ K_2\ K_3\ K_4\ K_5\ K_6\ K_7\ K_8\ K_9\ K_{10}\ K_{11}\ K_{12}\ K_{13}\ K_{14}\ K_{15}
 $$
 
 Next, linear algebra is essential to AES encyrption. So, KeyExpansion and other AES operations are explained using matrices, vectors, and other important elements of linear algebra. Consequently, engineers visualize the key as a matrix whose elements correspond to its 16 bytes. This matrix is called the "key array", and it is essential for engineers to use to effectively understand and design KeyExpansion.
@@ -22,10 +22,10 @@ Next, linear algebra is essential to AES encyrption. So, KeyExpansion and other 
 $$
 K =
 \begin{bmatrix}
-K_0 & K_4 & K_8 & K_12 \\
-K_1 & K_5 & K_9 & K_13 \\
-K_2 & K_6 & K_10 & K_14 \\
-K_3 & K_7 & K_11 & K_15 \\
+K_0 & K_4 & K_8 & K_{12} \\
+K_1 & K_5 & K_9 & K_{13} \\
+K_2 & K_6 & K_{10} & K_{14} \\
+K_3 & K_7 & K_{11} & K_{15} \\
 \end{bmatrix}
 $$
 
@@ -34,10 +34,10 @@ After the initial key matrix is built, KeyExpansion expands this matrix into a l
 $$
 K =
 \begin{bmatrix}
-K_0 & K_4 & K_8 & K_12 & K_16 & ... & K_173 \\
-K_1 & K_5 & K_9 & K_13 & K_17 & ... & K_174 \\
-K_2 & K_6 & K_10 & K_14 & K_18 & ... & K_175 \\
-K_3 & K_7 & K_11 & K_15 & K_19 & ... & K_176 \\
+K_0 & K_4 & K_8 & K_{12} & K_{16} & ... & K_{173} \\
+K_1 & K_5 & K_9 & K_{13} & K_{17} & ... & K_{174} \\
+K_2 & K_6 & K_{10} & K_{14} & K_{18} & ... & K_{175} \\
+K_3 & K_7 & K_{11} & K_{15} & K_{19} & ... & K_{176} \\
 \end{bmatrix}
 $$
 
@@ -46,7 +46,7 @@ Alternatively, the expanded key matrix could simply be visualized as an 11-colum
 $$
 K =
 \begin{bmatrix}
-K_0 & K_1 & K_2 & K_3 & ... & K_10 \\
+K_0 & K_1 & K_2 & K_3 & ... & K_{10} \\
 \end{bmatrix}
 $$
 
