@@ -22,10 +22,10 @@ Next, linear algebra is essential to AES encyrption. So, KeyExpansion and other 
 $$
 K =
 \begin{bmatrix}
-K0 & K4 & K8 & KC \\
-K1 & K5 & K9 & KD \\
-K2 & K6 & KA & KE \\
-K3 & K7 & KB & KF \\
+K_0 & K_4 & K_8 & K_C \\
+K_1 & K_5 & K_9 & K_D \\
+K_2 & K_6 & K_A & K_E \\
+K_3 & K_7 & K_B & K_F \\
 \end{bmatrix}
 $$
 
