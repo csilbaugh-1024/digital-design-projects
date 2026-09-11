@@ -59,7 +59,7 @@ The leftmost 4 columns of the 44-column expanded key array contain the original,
 $$
 K =
 \begin{bmatrix}
-W_1 & W_2 & W_3 & W_4 & W_5 & ... & W_44 \\
+W_1 & W_2 & W_3 & W_4 & W_5 & ... & W_{44} \\
 \end{bmatrix}
 $$
 
