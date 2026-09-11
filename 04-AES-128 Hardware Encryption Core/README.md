@@ -11,13 +11,13 @@ AES-128 uses a series of operations in rounds to encrypt the plaintext. These op
 Additionally, AES uses another operation called KeyExpansion, which is done by something called the key schedule. This operation uses the initial key to create 10, 12, or 14 more round keys that are used to encrypt the plaintext. In AES-128, for example, the key schedule supplies 11 different round keys, and each one is used in the operation AddRoundKey. For example, the first round key, the initial key, is used in AddRoundKey before round 1 begins. Then, the second key is used in round 2's instance of AddRoundKey, and so on until the 11th round key is used in round 10. When designing an AES encryption core, engineers can choose for the KeyExpansion process to be either fully completed before any encryption is done, or they can choose for it to expand the key as the rounds of the encyrption process progress. For this project, I will choose the former option.
 
 ## KeyExpansion
-AES uses KeyExpansion to expand the starting key into 11, 13, or 15 total round keys depending on the starting key's length. These round keys are used by the AddRoundKey function. Since this project uses a 128-bit key consistent with AES-128, I will design KeyExpansion to expand the starting key into 10 more round keys. Before expanding, AES operations are usually described with bytes. So, it is better to visualize the 128-bit key as a 16-byte key, instead. This way, the key can be represented as:
+AES uses KeyExpansion to expand the starting key into 11, 13, or 15 total round keys depending on the starting key's length. These round keys are used by the AddRoundKey function as part of the encryption process. Since this project uses a 128-bit key consistent with AES-128, I will design KeyExpansion to expand the starting key into 10 more round keys, resulting in a total of 11 round keys for the 11 instances of AddRoundKey that occur in AES-128. Before expanding, AES operations are described with bytes. So, it is better to visualize the 128-bit key as a 16-byte key, instead. This way, the key can be represented as:
 
 $$
 K = K_0\ K_1\ K_2\ K_3\ K_4\ K_5\ K_6\ K_7\ K_8\ K_9\ K_{10}\ K_{11}\ K_{12}\ K_{13}\ K_{14}\ K_{15}
 $$
 
-Next, linear algebra is essential to AES encyrption. So, KeyExpansion and other AES operations are explained using matrices, vectors, and other important elements of linear algebra. Consequently, engineers visualize the key as a matrix whose elements correspond to its 16 bytes. This matrix is called the "key array", and it is essential for engineers to use to effectively understand and design KeyExpansion.
+Alternatively, the key could be represented as a 4x4 matrix called the "key array". This notation is useful because linear algebra is essential to AES, and this notation is especially useful for understanding the AddRoundKey operation in the encryption process.
 
 $$
 K =
@@ -26,6 +26,19 @@ K_0 & K_4 & K_8 & K_{12} \\
 K_1 & K_5 & K_9 & K_{13} \\
 K_2 & K_6 & K_{10} & K_{14} \\
 K_3 & K_7 & K_{11} & K_{15} \\
+\end{bmatrix}
+$$
+
+Next, the key is further rephrased into a set of four 32-bit words. Each word occupies its own column in the key array.
+
+$$
+K = W_0\ W_1\ W_2\ W_3
+$$
+
+$$
+K =
+\begin{bmatrix}
+W_0 & W_1 & W_2 & W_3 \\
 \end{bmatrix}
 $$
 
