@@ -14,7 +14,7 @@ Additionally, AES uses another operation called KeyExpansion, which is done by s
 AES uses KeyExpansion to expand the starting key into 11, 13, or 15 total round keys depending on the starting key's length. These round keys are used by the AddRoundKey function as part of the encryption process. Since this project uses a 128-bit key consistent with AES-128, I will design KeyExpansion to expand the starting key into 10 more round keys, resulting in a total of 11 round keys for the 11 instances of AddRoundKey that occur in AES-128. Before expanding, AES operations are described with bytes. So, it is better to visualize the 128-bit key as a 16-byte key, instead. This way, the key can be represented as:
 
 $$
-K = K_1\ K_2\ K_3\ K_4\ K_5\ K_6\ K_7\ K_8\ K_9\ K_{10}\ K_{11}\ K_{12}\ K_{13}\ K_{14}\ K_{15}\ K_{16}
+K = K_0 \K_1\ K_2\ K_3\ K_4\ K_5\ K_6\ K_7\ K_8\ K_9\ K_{10}\ K_{11}\ K_{12}\ K_{13}\ K_{14}\ K_{15}
 $$
 
 Alternatively, the key could be represented as a 4x4 matrix called the "key array". This notation is useful because linear algebra is essential to AES, and this notation is especially useful for understanding the AddRoundKey operation in the encryption process.
@@ -22,23 +22,23 @@ Alternatively, the key could be represented as a 4x4 matrix called the "key arra
 $$
 K =
 \begin{bmatrix}
-K_1 & K_5 & K_9 & K_{13} \\
+K_0 & K_4 & K_8 & K_{12} \\
+K_1 & K_5 & K_{9} & K_{13} \\
 K_2 & K_6 & K_{10} & K_{14} \\
 K_3 & K_7 & K_{11} & K_{15} \\
-K_4 & K_8 & K_{12} & K_{16} \\
 \end{bmatrix}
 $$
 
 Next, the key is further rephrased into a set of four 32-bit words. Each word occupies its own column in the key array.
 
 $$
-K = W_1\ W_2\ W_3\ W_4
+K = W_0\ W_1\ W_2\ W_3
 $$
 
 $$
 K =
 \begin{bmatrix}
-W_1 & W_2 & W_3 & W_4 \\
+W_0 & W_1 & W_2 & W_3 \\
 \end{bmatrix}
 $$
 
@@ -47,10 +47,10 @@ After the initial key array is complete, KeyExpansion expands this matrix into a
 $$
 K =
 \begin{bmatrix}
-K_1 & K_5 & K_9 & K_{13} & K_{17} & ... & K_{173} \\
+K_0 & K_4 & K_8 & K_{12} & K_{16} & ... & K_{172} \\
+K_1 & K_5 & K_{9} & K_{13} & K_{17} & ... & K_{173} \\
 K_2 & K_6 & K_{10} & K_{14} & K_{18} & ... & K_{174} \\
 K_3 & K_7 & K_{11} & K_{15} & K_{19} & ... & K_{175} \\
-K_4 & K_8 & K_{12} & K_{16} & K_{20} & ... & K_{176} \\
 \end{bmatrix}
 $$
 
@@ -59,7 +59,7 @@ The leftmost 4 columns of the 44-column expanded key array contain the original,
 $$
 K =
 \begin{bmatrix}
-W_1 & W_2 & W_3 & W_4 & W_5 & ... & W_{44} \\
+W_0 & W_1 & W_2 & W_3 & W_4 & W_5 & ... & W_{43} \\
 \end{bmatrix}
 $$
 
