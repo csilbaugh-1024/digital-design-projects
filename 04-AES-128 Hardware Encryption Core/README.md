@@ -68,7 +68,7 @@ Columns 1, 2, 3, and 4 make up the initial key, and the remaining columns make u
 $$
 W_i =
 \begin{cases}
-W_{i-4} \oplus g(W_{i-1}), & i \equiv 0 \pmod{4} \\[4pt]
+W_{i-4} \oplus g(W_{i-1}), & i \equiv 0 \pmod{4} 
 W_{i-4} \oplus W_{i-1}, & i \not\equiv 0 \pmod{4}
 \end{cases}
 $$
