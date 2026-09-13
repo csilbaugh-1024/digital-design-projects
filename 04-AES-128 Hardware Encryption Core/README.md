@@ -66,7 +66,11 @@ $$
 Columns 1, 2, 3, and 4 make up the initial key, and the remaining columns make up the 10 additional round keys. The elements of these columns are generated recursively based on the contents of the first four columns, and this recursion function has two possible behaviors depending on the index, i, of the column. For AES-128, column i is equal to column i-4 XOR column i-1 if i is not a multiple of 4, and column i is equal to column i-4 XOR g(column i-1), where g is a specific non-linear function, if i is a multiple of 4. For all integer values of i greater than or equal to 4 and less than or equal to 44, this can be expressed as the following piecewise equation:
 
 $$
-W_i = \begin{cases} W_{i-4} \oplus W_{i-1} & \text{if } i \not\equiv 0 \pmod 4 \\ W_{i-4} \oplus g(W_{i-1}) & \text{if } i \equiv 0 \pmod 4 \end{cases} \qquad 4 \le i \le 44
+W_i =
+\begin{cases}
+W_{i-4} \oplus W_{i-1} & \text{if } i \not\equiv 0 \pmod 4 \\
+W_{i-4} \oplus g(W_{i-1}) & \text{if } i \equiv 0 \pmod 4
+\end{cases}
 $$
 
 
