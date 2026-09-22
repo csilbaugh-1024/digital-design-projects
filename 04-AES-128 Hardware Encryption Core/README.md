@@ -11,6 +11,8 @@ AES-128 uses a series of operations in rounds to encrypt the plaintext. These op
 Additionally, AES uses another operation called KeyExpansion, which is done by something called the key schedule. This operation uses the initial key to create 10, 12, or 14 more round keys that are used to encrypt the plaintext. In AES-128, for example, the key schedule supplies 11 different round keys, and each one is used in the operation AddRoundKey. For example, the first round key, the initial key, is used in AddRoundKey before round 1 begins. Then, the second key is used in round 2's instance of AddRoundKey, and so on until the 11th round key is used in round 10. When designing an AES encryption core, engineers can choose for the KeyExpansion process to be either fully completed before any encryption is done, or they can choose for it to expand the key as the rounds of the encyrption process progress. For this project, I will choose the former option.
 
 ## KeyExpansion
+
+### Setup
 AES uses KeyExpansion to expand the starting key into 11, 13, or 15 total round keys depending on the starting key's length. These round keys are used by the AddRoundKey function as part of the encryption process. Since this project uses a 128-bit key consistent with AES-128, I will design KeyExpansion to expand the starting key into 10 more round keys, resulting in a total of 11 round keys for the 11 instances of AddRoundKey that occur in AES-128. Before expanding, AES operations are described with bytes. So, it is better to visualize the 128-bit key as a 16-byte key, instead. This way, the key can be represented as:
 
 $$
@@ -63,7 +65,10 @@ W_0 & W_1 & W_2 & W_3 & W_4 & W_5 & ... & W_{43} \\
 \end{bmatrix}
 $$
 
-Columns 1, 2, 3, and 4 make up the initial key, and the remaining columns make up the 10 additional round keys. The elements of these columns are generated recursively based on the contents of the first four columns, and this recursion function has two possible behaviors depending on the index, i, of the column. For AES-128, column i is equal to column i-4 XOR column i-1 if i is not a multiple of 4, and column i is equal to column i-4 XOR g(column i-1), where g is a specific non-linear function, if i is a multiple of 4. For all integer values of i greater than or equal to 4 and less than or equal to 44, this can be expressed as the following piecewise equation:
+Columns 1, 2, 3, and 4 make up the initial key, and the remaining columns make up the 10 additional round keys. 
+
+### Recursion Function
+The elements of columns 5 through 44 of the expanded key array are generated recursively based on the contents of the first four columns, and this recursion function has two possible behaviors depending on the index, i, of the column. For AES-128, column i is equal to column i-4 XOR column i-1 if i is not a multiple of 4, and column i is equal to column i-4 XOR g(column i-1), where g is a specific non-linear function, if i is a multiple of 4. For all integer values of i greater than or equal to 4 and less than or equal to 44, this can be expressed as the following piecewise equation:
 
 $$
 W_i =
@@ -73,6 +78,28 @@ W_{i-4} \oplus g(W_{i-1}) & \text{if } i \equiv 0 \pmod 4
 \end{cases}
 $$
 
+The non-linear function, g, is essential to the strength of AES-128, which would be trivially breakable without it. The function g consists of three stages: RotWord, SubWord, and an XOR with a number called the round constant, or, Rcon.
+
+### RotWord
+The first step of g is to apply RotWord, which rotates the four-byte word one byte to the left.
+
+$$
+\operatorname{RotWord}([W_0, W_1, W_2, W_3]) = [W_1, W_2, W_3, W_0]
+$$
+
+### SubWord
+The next step is SubWord, which applies an S-box, also known as $S_{RD}$, function to each element of the newly rotated word. The $S_{RD}$ function takes a four-byte input represented as a two-digit hexadecimal number and converts it to a new one using a galois field $GF(2^8)$. The exact discrete math of the S-box transformation and its galois field is beyond the scope of this project, and this function can instead be used with a table:
+
+![alt_text](Sbox.png)
+
+This table shows the possible outputs of the function $S_{RD}(xy)$, where x is the first hexadecimal number, and y is the second one. After applying the S-box transformation to the rotated word, the new output is:
+
+$$
+\operatorname{SubWord}([W_1, W_2, W_3, W_0]) = [S_1, S_2, S_3, S_0]
+$$
+
+### XOR with Round Constant
+Now that SubWord is complete, the next step is to perform a bitwise XOR of each element of the four-byte word with something called a round constant. Like the S-box, the round constant comes from the galois field $GF(2^8)$.
 
 ## AddRoundKey
 
