@@ -84,7 +84,7 @@ The non-linear function, g, is essential to the strength of AES-128, which would
 The first step of g is to apply RotWord, which rotates the four-byte word one byte to the left.
 
 $$
-\operatorname{RotWord}([W_0, W_1, W_2, W_3]) = [W_1, W_2, W_3, W_0]
+\mathrm{RotWord}([W_0, W_1, W_2, W_3]) = [W_1, W_2, W_3, W_0]
 $$
 
 ### SubWord
@@ -95,7 +95,7 @@ The next step is SubWord, which applies an S-box, also known as $S_{RD}$, functi
 This table shows the possible outputs of the function $S_{RD}(xy)$, where x is the first hexadecimal number, and y is the second one. After applying the S-box transformation to the rotated word, the new output is:
 
 $$
-\operatorname{SubWord}([W_1, W_2, W_3, W_0]) = [S_1, S_2, S_3, S_0]
+\mathrm{SubWord}([W_1, W_2, W_3, W_0]) = [S_1, S_2, S_3, S_0]
 $$
 
 ### XOR with Round Constant
