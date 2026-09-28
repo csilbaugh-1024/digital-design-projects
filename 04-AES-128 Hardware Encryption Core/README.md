@@ -98,8 +98,10 @@ $$
 \mathrm{SubWord}([W_1, W_2, W_3, W_0]) = [S_1, S_2, S_3, S_0]
 $$
 
+There is no need to implement the true $S_{RD}$ function. Instead, all of its outputs will be stored in a lookup table.
+
 ### XOR with Round Constant
-Now that SubWord is complete, the next step is to perform a bitwise XOR of each element of the four-byte word with something called a round constant. Like the S-box, the round constant comes from the galois field $GF(2^8)$.
+Now that SubWord is complete, the next step is to perform a bitwise XOR of each element of the four-byte word with something called a round constant. This XOR only affects the very first entry of the four-byte word, and there are 10 separate round constants for the 10 different appearances of the non-linear function g in the recursion function. Like the S-box, the round constant comes from the galois field $GF(2^8)$. Also like the S-box, the math behind the round constant is beyond the scope of this project. Instead of manually calculating each round constant, I will simply attach each round constant needed to a multiplexer.
 
 ## AddRoundKey
 
