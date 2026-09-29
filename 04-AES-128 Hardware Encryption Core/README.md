@@ -116,6 +116,8 @@ Here, the round constant is denoted by $Rcon$ and, because the second, third, an
 
 The 10 different round constant values are: `0x01`, `0x02`, `0x04`, `0x08`, `0x10`, `0x20`, `0x40`, `0x80`, `0x1B`, `0x36`.
 
+This is the final step of the function g, which is essential to this cipher because of its non-linear nature.
+
 ## AddRoundKey
 
 ## SubBytes
