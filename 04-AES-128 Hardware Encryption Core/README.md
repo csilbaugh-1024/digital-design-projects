@@ -101,7 +101,7 @@ $$
 There is no need to implement the true $S_{RD}$ function. Instead, all of its outputs will be stored in a lookup table.
 
 ### XOR with Round Constant
-Now that SubWord is complete, the next step is to perform a bitwise XOR of each element of the four-byte round key with something called a round constant. Shown below is the vector corresponding to the $i$th round constant.
+Now that SubWord is complete, the next step is to perform a bitwise XOR of each element of the four-byte round key with something called a round constant. Shown below is the vector corresponding to the ith round constant.
 
 $$
 \begin{bmatrix}
@@ -114,7 +114,7 @@ $$
 
 Here, the round constant is denoted by $Rcon$ and, because the second, third, and fourth entries of the round constant matrix are zero, this XOR operation only affects the first element of the four-byte round key word. Furthermore, there are 10 separate round constants for the 10 different appearances of the non-linear function g in the key schedule. Like the S-box, the round constant comes from the Galois field $GF(2^8)$. Also like the S-box, the math behind the round constant is beyond the scope of this project because the round constant values are already known. Instead of designing the functionality to calculate each round constant, I will simply design my encryption core to retrieve any of the 10 possible round constants with a multiplexer.
 
-The 10 different round constant values are: \Text{0x01}, \Text{0x02}, \Text{0x04}, \Text{0x08}, \Text{0x10}, \Text{0x20}, \Text{0x40}, \Text{0x80}, \Text{0x1B}, \Text{0x36}.
+The 10 different round constant values are: `0x01`, `0x02`, `0x04`, `0x08`, `0x10`, `0x20`, `0x40`, `0x80`, `0x1B`, `0x36`.
 
 ## AddRoundKey
 
