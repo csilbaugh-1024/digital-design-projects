@@ -81,18 +81,18 @@ $$
 The non-linear function, g, is essential to the strength of AES-128, which would be trivially breakable without it. The function g consists of three stages: RotWord, SubWord, and an XOR with a number called the round constant, or, Rcon.
 
 ### RotWord
-The first step of g is to apply RotWord, which rotates the four-byte word one byte to the left.
+The first step of g is to apply RotWord, which rotates the four-byte round key word one byte to the left.
 
 $$
 \mathrm{RotWord}([W_0, W_1, W_2, W_3]) = [W_1, W_2, W_3, W_0]
 $$
 
 ### SubWord
-The next step is SubWord, which applies an S-box, also known as $S_{RD}$, function to each element of the newly rotated word. The $S_{RD}$ function takes a four-byte input represented as a two-digit hexadecimal number and converts it to a new one using a galois field $GF(2^8)$. The exact discrete math of the S-box transformation and its galois field is beyond the scope of this project, and this function can instead be used with a table:
+The next step is SubWord, which applies an S-box, also known as $S_{RD}$, function to each element of the newly rotated round key word. The $S_{RD}$ function takes a four-byte input represented as a two-digit hexadecimal number and converts it to a new one using a galois field $GF(2^8)$. The exact discrete math of the S-box transformation and its galois field is beyond the scope of this project, and this function can instead be used with a table:
 
 ![alt_text](Sbox.png)
 
-This table shows the possible outputs of the function $S_{RD}(xy)$, where x is the first hexadecimal number, and y is the second one. After applying the S-box transformation to the rotated word, the new output is:
+This table shows the possible outputs of the function $S_{RD}(xy)$, where x is the first hexadecimal number, and y is the second one. After applying the S-box transformation to the rotated round key, the new output is:
 
 $$
 \mathrm{SubWord}([W_1, W_2, W_3, W_0]) = [S_1, S_2, S_3, S_0]
@@ -101,7 +101,20 @@ $$
 There is no need to implement the true $S_{RD}$ function. Instead, all of its outputs will be stored in a lookup table.
 
 ### XOR with Round Constant
-Now that SubWord is complete, the next step is to perform a bitwise XOR of each element of the four-byte word with something called a round constant. This XOR only affects the very first entry of the four-byte word, and there are 10 separate round constants for the 10 different appearances of the non-linear function g in the recursion function. Like the S-box, the round constant comes from the galois field $GF(2^8)$. Also like the S-box, the math behind the round constant is beyond the scope of this project. Instead of manually calculating each round constant, I will simply attach each round constant needed to a multiplexer.
+Now that SubWord is complete, the next step is to perform a bitwise XOR of each element of the four-byte round key with something called a round constant. Shown below is the vector corresponding to the $i$th round constant.
+
+$$
+\begin{bmatrix}
+\text{Rcon}_i \\
+\texttt{0x00} \\
+\texttt{0x00} \\
+\texttt{0x00}
+\end{bmatrix}
+$$
+
+Here, the round constant is denoted by $Rcon$ and, because the second, third, and fourth entries of the round constant matrix are zero, this XOR operation only affects the first element of the four-byte round key word. Furthermore, there are 10 separate round constants for the 10 different appearances of the non-linear function g in the key schedule. Like the S-box, the round constant comes from the Galois field $GF(2^8)$. Also like the S-box, the math behind the round constant is beyond the scope of this project because the round constant values are already known. Instead of designing the functionality to calculate each round constant, I will simply design my encryption core to retrieve any of the 10 possible round constants with a multiplexer.
+
+The 10 different round constant values are: \Text{0x01}, \Text{0x02}, \Text{0x04}, \Text{0x08}, \Text{0x10}, \Text{0x20}, \Text{0x40}, \Text{0x80}, \Text{0x1B}, \Text{0x36}.
 
 ## AddRoundKey
 
