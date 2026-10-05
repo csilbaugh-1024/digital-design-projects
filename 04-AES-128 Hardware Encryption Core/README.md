@@ -119,6 +119,30 @@ The 10 different round constant values are: `0x01`, `0x02`, `0x04`, `0x08`, `0x1
 This is the final step of the function g, which is essential to this cipher because of its non-linear nature.
 
 ## AddRoundKey
+While the plaintext is being encrypted, before it has become the ciphertext, it is called the "state". Furthermore, the first operation applied to the state is called "AddRoundKey", which consists of a bitwise XOR of the state with a round key. Because AES-128 uses 11 total round keys after KeyExpansion is finished, there are 11 instances of AddRoundKey. The first happens before the first round begins, and each of the remaining 10 rounds includes an instance of AddRoundKey. Shown below, the state array has elements $a_{m x n}$, the round key array has elements $K_{m x n}$, and the output array has elements $b_{m x n}$. For each matrix depicted, an entry corresponds to one byte.
+
+$$
+\begin{bmatrix}
+a_{0,0} & a_{0,1} & a_{0,2} & a_{0,3} \\
+a_{1,0} & a_{1,1} & a_{1,2} & a_{1,3} \\
+a_{2,0} & a_{2,1} & a_{2,2} & a_{2,3} \\
+a_{3,0} & a_{3,1} & a_{3,2} & a_{3,3}
+\end{bmatrix}
+\oplus
+\begin{bmatrix}
+K_{0,0} & K_{0,1} & K_{0,2} & K_{0,3} \\
+K_{1,0} & K_{1,1} & K_{1,2} & K_{1,3} \\
+K_{2,0} & K_{2,1} & K_{2,2} & K_{2,3} \\
+K_{3,0} & K_{3,1} & K_{3,2} & K_{3,3}
+\end{bmatrix}
+=
+\begin{bmatrix}
+b_{0,0} & b_{0,1} & b_{0,2} & b_{0,3} \\
+b_{1,0} & b_{1,1} & b_{1,2} & b_{1,3} \\
+b_{2,0} & b_{2,1} & b_{2,2} & b_{2,3} \\
+b_{3,0} & b_{3,1} & b_{3,2} & b_{3,3}
+\end{bmatrix}
+$$
 
 ## SubBytes
 
