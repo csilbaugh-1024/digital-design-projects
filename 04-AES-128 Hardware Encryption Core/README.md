@@ -121,7 +121,7 @@ This is the final step of the function g, which is essential to this cipher beca
 ## AddRoundKey
 While the plaintext is being encrypted, before it has become the ciphertext, it is called the "state". Furthermore, the first operation applied to the state is called "AddRoundKey", which consists of a bitwise XOR of the state with a round key. Because AES-128 uses 11 total round keys after KeyExpansion is finished, there are 11 instances of AddRoundKey. The first happens before the first round begins, and each of the remaining 10 rounds includes an instance of AddRoundKey. Shown below, the state array has elements $a_{m x n}$, the round key array has elements $K_{m x n}$, and the output array has elements $b_{m x n}$. For each matrix depicted, an entry corresponds to one byte.
 
-$$
+```math
 \begin{bmatrix}
 a_{0,0} & a_{0,1} & a_{0,2} & a_{0,3} \\
 a_{1,0} & a_{1,1} & a_{1,2} & a_{1,3} \\
@@ -142,7 +142,7 @@ b_{1,0} & b_{1,1} & b_{1,2} & b_{1,3} \\
 b_{2,0} & b_{2,1} & b_{2,2} & b_{2,3} \\
 b_{3,0} & b_{3,1} & b_{3,2} & b_{3,3}
 \end{bmatrix}
-$$
+```
 
 
 ## SubBytes
