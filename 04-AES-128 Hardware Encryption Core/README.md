@@ -144,6 +144,7 @@ b_{3,0} & b_{3,1} & b_{3,2} & b_{3,3}
 \end{bmatrix}
 $$
 
+
 ## SubBytes
 
 ## ShiftRows
