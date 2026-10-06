@@ -118,8 +118,13 @@ The 10 different round constant values are: `0x01`, `0x02`, `0x04`, `0x08`, `0x1
 
 This is the final step of the function g, which is essential to this cipher because of its non-linear nature.
 
+## Round Structure
+Before it has become ciphertext, the collection of plaintext bits being encrypted is called the "state". Like the key and the expanded key, which are organized into a key array and an expanded key array, the state is given a state array. Furthermore, AES encrypts a 128-bit plaintext, the state array has four rows and four columns, and each element of this array is one byte. 
+
+AES-128 performs 10 rounds of encryption on this state array, and each round contains four encryption operations in order: SubBytes, ShiftRows, MixColumns, and AddRoundKey. Before the first round of encryption comes, there is an additional instance of AddRoundKey. Hence, AddRoundKey is called 11 times for the 11 round keys outputted by KeyExpansion. Furthermore, The final round does not include MixColumns. Instead, the order includes: SubBytes, ShiftRows, and AddRoundKey.
+
 ## AddRoundKey
-While the plaintext is being encrypted, before it has become the ciphertext, it is called the "state". Furthermore, the first operation applied to the state is called "AddRoundKey", which consists of a bitwise XOR of the state with a round key. Because AES-128 uses 11 total round keys after KeyExpansion is finished, there are 11 instances of AddRoundKey. The first happens before the first round begins, and each of the remaining 10 rounds includes an instance of AddRoundKey. Shown below, the state array has elements $a_{m x n}$, the round key array has elements $K_{m x n}$, and the output array has elements $b_{m x n}$. For each matrix depicted, an entry corresponds to one byte.
+The first operation applied to the state in the encryption process is called "AddRoundKey", which consists of a bitwise XOR of the state with a round key. Shown below, the state array has elements $a_{m x n}$, the round key array has elements $K_{m x n}$, and the output array has elements $b_{m x n}$. For each matrix depicted, an entry corresponds to one byte.
 
 ```math
 \begin{bmatrix}
@@ -146,7 +151,20 @@ b_{30} & b_{31} & b_{32} & b_{33}
 
 
 ## SubBytes
+SubBytes is the first operation in each round of encryption and, like the function SubWord in KeyExpansion, it is a non-linear transformation that uses the S-box. It works by
 
 ## ShiftRows
 
 ## MixColumns
+
+## Design Approach
+
+### KeyExpansion Design
+
+### AddRoundKey Design
+
+### SubBytes Design
+
+### ShiftRows Design
+
+### MixColumns Design
