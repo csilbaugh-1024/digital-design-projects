@@ -84,11 +84,13 @@ The non-linear function, g, is essential to the strength of AES-128, which would
 The first step of g is to apply RotWord, which rotates the four-byte round key word one byte to the left.
 
 $$
-\mathrm{RotWord}([W_0, W_1, W_2, W_3]) = [W_1, W_2, W_3, W_0]
+\mathrm{RotWord}([b_0, b_1, b_2, b_3]) = [b_1, b_2, b_3, b_0]
 $$
 
+It is important to keep in mind that each W is a four-byte vector, and RotWord acts on W entries in the expanded key array by manipulating its bytes, but only those passed through the function g.
+
 ### SubWord
-The next step is SubWord, which applies an S-box, also known as $S_{RD}$, function to each element of the newly rotated round key word. The $S_{RD}$ function takes a four-byte input represented as a two-digit hexadecimal number and converts it to a new one using a galois field $GF(2^8)$. The exact discrete math of the S-box transformation and its galois field is beyond the scope of this project, and this function can instead be used with a table:
+The next step is SubWord, which applies an S-box, also known as $S_{RD}$, function to each element of the newly rotated round key word. The $S_{RD}$ function takes a byte input represented as a two-digit hexadecimal number and converts it to a new one using a galois field $GF(2^8)$. The exact discrete math of the S-box transformation and its galois field is beyond the scope of this project, and this function can instead be used with a table:
 
 ![alt_text](Sbox.png)
 
@@ -128,30 +130,42 @@ The first operation applied to the state in the encryption process is called "Ad
 
 ```math
 \begin{bmatrix}
-a_{00} & a_{01} & a_{02} & a_{03} \\
-a_{10} & a_{11} & a_{12} & a_{13} \\
-a_{20} & a_{21} & a_{22} & a_{23} \\
-a_{30} & a_{31} & a_{32} & a_{33}
+a_{0} & a_{4} & a_{8} & a_{12} \\
+a_{1} & a_{5} & a_{9} & a_{13} \\
+a_{2} & a_{6} & a_{10} & a_{14} \\
+a_{3} & a_{7} & a_{11} & a_{15}
 \end{bmatrix}
 \oplus
 \begin{bmatrix}
-K_{00} & K_{01} & K_{02} & K_{03} \\
-K_{10} & K_{11} & K_{12} & K_{13} \\
-K_{20} & K_{21} & K_{22} & K_{23} \\
-K_{30} & K_{31} & K_{32} & K_{33}
+K_{0} & K_{4} & K_{8} & K_{12} \\
+K_{1} & K_{5} & K_{9} & K_{13} \\
+K_{2} & K_{6} & K_{10} & K_{14} \\
+K_{3} & K_{7} & K_{11} & K_{15}
 \end{bmatrix}
 =
 \begin{bmatrix}
-b_{00} & b_{01} & b_{02} & b_{03} \\
-b_{10} & b_{11} & b_{12} & b_{13} \\
-b_{20} & b_{21} & b_{22} & b_{23} \\
-b_{30} & b_{31} & b_{32} & b_{33}
+b_{0} & b_{4} & b_{8} & b_{12} \\
+b_{1} & b_{5} & b_{9} & b_{13} \\
+b_{2} & b_{6} & b_{10} & b_{14} \\
+b_{3} & b_{7} & b_{11} & b_{15}
 \end{bmatrix}
 ```
 
 
 ## SubBytes
-SubBytes is the first operation in each round of encryption and, like the function SubWord in KeyExpansion, it is a non-linear transformation that uses the S-box. It works by
+SubBytes is the first operation in each round of encryption and, like the function SubWord in KeyExpansion, it is a non-linear transformation that uses the S-box. It works by replacing each entry in the state array with its corresponding value in the $S_{RD}$ function.
+
+$$
+State Array =
+\begin{bmatrix}
+a_0 & a_4 & a_8 & a_{12} \\
+a_1 & a_5 & a_{9} & a_{13} \\
+a_2 & a_6 & a_{10} & a_{14} \\
+a_3 & a_7 & a_{11} & a_{15} \\
+\end{bmatrix}
+$$
+
+Because the S-box table is generally displayed with hexadecimal values, it may temporarily be useful to view the state array as an array of 32-bit elements rather than bytes.
 
 ## ShiftRows
 
